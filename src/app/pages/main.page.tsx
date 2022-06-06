@@ -14,9 +14,9 @@ function MainPage() {
   return ( <>
     <div className="page">
       <div className="page__inner">
-        <div className="page__title"> 
+        <h1 className="page__title"> 
         Atomic Swap
-        </div>
+        </h1>
         <div className="page__desc"> 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer faucibus porta libero, at porttitor elit congue eget. Nullam dictum, risus quis aliquet dictum, augue lacus lacinia augue, eget mattis elit diam id nulla. Vivamus pulvinar sapien a mauris vestibulum euismod. Curabitur vehicula ante gravida placerat rutrum. Suspendisse potenti. Maecenas quis accumsan lectus. In id odio congue, auctor enim in, ultricies lacus. Suspendisse potenti. Sed risus arcu, vehicula at nibh id, faucibus condimentum ex. Nullam at lobortis nisi. Integer lobortis tellus nec congue bibendum.
         </div>
