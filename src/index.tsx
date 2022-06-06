@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles.sass";
-import {Provider} from "react-redux";
+import { Provider } from "react-redux";
 import App from "./app/app";
-import {store} from "./app/store";
+import { store } from "./app/store";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
