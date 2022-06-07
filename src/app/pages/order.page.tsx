@@ -1,4 +1,5 @@
 import CreateOrder from "app/components/create-order";
+import EndingStage from "app/components/ending-stage";
 import SendTransaction from "app/components/send-transaction";
 import { FC } from "react";
 import "./order.page.sass";
@@ -18,7 +19,8 @@ const OrderPage: FC<TProps> = ({ title }) => {
         After responding to your offer, you will go to the next page.
       </div>
       {/* <CreateOrder /> */}
-      <SendTransaction />
+      {/* <SendTransaction /> */}
+      <EndingStage />
     </div>
   );
 };
