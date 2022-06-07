@@ -1,5 +1,6 @@
 import CreateOrder from "app/components/create-order";
 import EndingStage from "app/components/ending-stage";
+import FirstBoxSend from "app/components/first-box";
 import SendTransaction from "app/components/send-transaction";
 import { FC } from "react";
 import "./order.page.sass";
@@ -20,7 +21,8 @@ const OrderPage: FC<TProps> = ({ title }) => {
       </div>
       {/* <CreateOrder /> */}
       {/* <SendTransaction /> */}
-      <EndingStage />
+      <FirstBoxSend />
+      {/* <EndingStage /> */}
     </div>
   );
 };
