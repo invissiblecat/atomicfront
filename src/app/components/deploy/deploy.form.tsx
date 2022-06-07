@@ -4,7 +4,7 @@ const NewOrderForm = () => {
   return (
     <>
       <div className="new-order">
-        <div className="new-order__title"> Create your own swap</div>
+        <div className="new-order__title">Create your own swap</div>
         <div className="new-order__form-inner">
           <span className="new-order__form-token-info">
             <input className="new-order__form-input" placeholder="From"></input>
