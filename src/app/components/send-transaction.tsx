@@ -38,14 +38,12 @@ const SendTransaction = () => {
               className="send-transaction__form-input"
               placeholder="Secret"
             ></input>
-            <select className="send-transaction__form-select"></select>
           </span>
           <span className="send-transaction__form-token-info">
             <input
               className="send-transaction__form-input"
               placeholder="Timelock seconds"
             ></input>
-            <select className="send-transaction__form-select"></select>
           </span>
         </div>
         <button
