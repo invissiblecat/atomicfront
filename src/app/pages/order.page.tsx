@@ -25,7 +25,7 @@ const OrderPage: FC<TProps> = ({ title }) => {
       {/* <SendTransaction /> */}
       {/* <FirstBoxSend /> */}
       {/* <BothBoxSend /> */}
-      <BoxSended />
+      {/* <BoxSended /> */}
       {/* <EndingStage /> */}
     </div>
   );
