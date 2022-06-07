@@ -1,0 +1,55 @@
+.box-sended
+    width: calc( 100% - 200px )
+    &__state-success
+        border-radius: 4px
+        background-color: #003d99
+        flex-direction: column
+        display: flex
+        padding: 16px 16px
+        margin-bottom: 33px
+    &__text
+        font-weight: 400
+        color: #fff
+        &:not(&:last-child)
+            margin-bottom: 15px
+        &-special
+            font-weight: 700
+    &__state-loading
+        border-radius: 4px
+        background-color: #E6AC00
+        display: flex
+        justify-content: space-between
+        padding: 8px 16px
+        margin-bottom: 33px
+    &__description-text
+        color: #fff
+    &__time
+        font-weight: 400
+        font-size: 12px
+        opacity: 0.5
+        color: #fff
+        align-items: center
+        display: flex
+    &__units
+        text-transform: uppercase
+        opacity: 0.5
+    &__name
+        font-weight: 700
+        font-size: 16px
+        margin-bottom: 15px
+    &__value
+        font-weight: 400
+        font-size: 20px
+        line-height: 24px
+        display: flex
+        gap: 5px
+    &__content
+        background-color: #70593e
+        padding: 24px 18px
+        flex-direction: column
+        display: flex
+        gap: 32px
+        margin-bottom: 24px
+    &__row
+        display: flex
+        gap: 60px
