@@ -9,9 +9,10 @@ import "./order.page.sass";
 
 type TProps = {
   title: string;
+  subtitle: string;
 };
 
-const OrderPage: FC<TProps> = ({ title }) => {
+const OrderPage: FC<TProps> = ({ title, subtitle }) => {
   return (
     <div className="order-page">
       <div className="order-page__title">
@@ -19,7 +20,8 @@ const OrderPage: FC<TProps> = ({ title }) => {
         {/* Your order was succesfully created */}
       </div>
       <div className="order-page__subtitle">
-        After responding to your offer, you will go to the next page.
+        {subtitle}
+        {/* After responding to your offer, you will go to the next page. */}
       </div>
       {/* <CreateOrder /> */}
       {/* <SendTransaction /> */}

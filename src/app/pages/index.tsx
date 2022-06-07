@@ -9,7 +9,7 @@ function Pages() {
         <MainPage />
       </Route>
       <Route path="/order" exact>
-        <OrderPage title="Your order was succesfully created"/>
+        <OrderPage title="Your order was succesfully created" subtitle="After responding to your offer, you will go to the next page."/>
       </Route>
     </Switch>
   );
