@@ -1,3 +1,4 @@
+import BothBoxSend from "app/components/both-box";
 import CreateOrder from "app/components/create-order";
 import EndingStage from "app/components/ending-stage";
 import FirstBoxSend from "app/components/first-box";
@@ -21,7 +22,8 @@ const OrderPage: FC<TProps> = ({ title }) => {
       </div>
       {/* <CreateOrder /> */}
       {/* <SendTransaction /> */}
-      <FirstBoxSend />
+      {/* <FirstBoxSend /> */}
+      <BothBoxSend />
       {/* <EndingStage /> */}
     </div>
   );
