@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { ScrollLink } from "react-scroll";
 import "./header.sass"
@@ -8,10 +8,38 @@ type args={
 }
 
 const Header :FC<args> =({links}) => {
+  const [defaultAccount, setDefaultAccount] = useState(null);
+  
+  const connectWalletHandler = () => {
+    if (window.ethereum && window.ethereum.isMetaMask) {
+      console.log('MetaMask Here!');
+  
+      window.ethereum.request({ method: 'eth_requestAccounts'})
+      .then((result: any) => {
+        accountChangedHandler(result[0]);
+      })
+    } else {
+      console.log('Need to install MetaMask');
+    }
+  }
+  
+  const accountChangedHandler = (newAccount: any) => {
+    setDefaultAccount(newAccount);
+  }
+  
+  const chainChangedHandler = () => {
+    // reload the page to avoid any errors with chain change mid use of application
+    window.location.reload();
+  }
+ 
+  window.ethereum.on('accountsChanged', accountChangedHandler);
+  window.ethereum.on('chainChanged', chainChangedHandler);
+
   return (
     <div className="header">
       <a className="header__item" href={`#${links[0]}`}>About</a>
       <a className="header__item"href={`#${links[1]}`}>Form</a>
+      <button onClick={connectWalletHandler}>connect wallet</button>
       <Link to='/order'></Link>
     </div>
   );
