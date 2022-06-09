@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ScrollLink } from "react-scroll";
 import "./header.sass";
@@ -12,6 +13,7 @@ type args = {
 const Header: FC<args> = ({ links }) => {
   const isAuth = useAuth();
   const { connect, disconnect } = useActions();
+  const dispatch = useDispatch();
 
   const [defaultAccount, setDefaultAccount] = useState(null);
 
@@ -51,7 +53,7 @@ const Header: FC<args> = ({ links }) => {
       </a>
       <button
         onClick={() => {
-          connect();
+          dispatch(connect());
         }}
       >
         connect wallet
