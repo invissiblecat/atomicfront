@@ -11,7 +11,7 @@ export const getTokenSymbolByAddress = (tokens: TToken[], address: string) =>
   tokens.find((token) => token.address === address)?.symbol;
 
 export const USER_LOGIN_SIGNATURE_KEY =
-  "Gagarin Launchpad sign confirmation" as const;
+  "Atomic Swap sign confirmation" as const;
 
 export enum ChainId {
   MAINNET = 56,
