@@ -16,11 +16,11 @@ const OrderPage: FC<TProps> = ({ title, subtitle }) => {
   return (
     <div className="order-page">
       <div className="order-page__title">
-        {title}
+        {/* {title} */}
         {/* Your order was succesfully created */}
       </div>
       <div className="order-page__subtitle">
-        {subtitle}
+        {/* {subtitle} */}
         {/* After responding to your offer, you will go to the next page. */}
       </div>
       {/* <CreateOrder /> */}
