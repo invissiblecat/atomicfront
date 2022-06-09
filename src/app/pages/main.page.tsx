@@ -15,7 +15,6 @@ function MainPage() {
   return (
     <>
       <div className="page">
-        <Header links={["about","form"]}/>
         <div className="page__inner">
           <h1 className="page__title">Atomic Swap</h1>
           <div className="page__desc" id="about">
