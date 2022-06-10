@@ -1,4 +1,5 @@
 import "./send-transaction.sass";
+import Table from "./table";
 
 const SendTransaction = () => {
   return (
@@ -9,28 +10,7 @@ const SendTransaction = () => {
         </div>
         <div className="send-transaction__time">15:23:16</div>
       </div>
-      <div className="send-transaction__table">
-        <div className="send-transaction__item">
-          <div className="send-transaction__name">Amount to send</div>
-          <div className="send-transaction__value">
-            2,015.72
-            <div className="send-transaction__units">ETH</div>
-          </div>
-        </div>
-        <div className="send-transaction__item">
-          <div className="send-transaction__name">Target address</div>
-          <div className="send-transaction__value">
-            1.02
-            <div className="send-transaction__units">BTC</div>
-          </div>
-        </div>
-        <div className="send-transaction__item">
-          <div className="send-transaction__name">Secret hash</div>
-          <div className="send-transaction__value">
-            ushdjklkushdjklkushdjklkushdjklk
-          </div>
-        </div>
-      </div>
+      <Table size={4} title="" type="send" />
       <div className="send-transaction__form">
         <div className="send-transaction__form-inner">
           <span className="send-transaction__form-token-info">

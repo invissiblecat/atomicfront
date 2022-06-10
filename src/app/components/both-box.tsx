@@ -1,4 +1,5 @@
 import "./both-box.sass";
+import Table from "./table";
 
 const BothBoxSend = () => {
   return (
@@ -23,62 +24,8 @@ const BothBoxSend = () => {
         </div>
         <div className="both-box__time">15:23:16</div>
       </div>
-      <div className="both-box__upper">
-        <div className="both-box__title">Recipient box</div>
-        <div className="both-box__table">
-          <div className="both-box__item">
-            <div className="both-box__name">Amount</div>
-            <div className="both-box__value">
-              2,015.72
-              <div className="both-box__units">ETH</div>
-            </div>
-          </div>
-          <div className="both-box__item">
-            <div className="both-box__name">Founder</div>
-            <div className="both-box__value">lsidhjdmc</div>
-          </div>
-          <div className="both-box__item">
-            <div className="both-box__name">Recipient (you)</div>
-            <div className="both-box__value">lsidhjdmc</div>
-          </div>
-          <div className="both-box__item">
-            <div className="both-box__name">Secret hash</div>
-            <div className="both-box__value">
-              ushdjklkushdjklkushdjklkushdjklk
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="both-box__upper">
-        <div className="both-box__title">Recipient box</div>
-        <div className="both-box__table">
-          <div className="both-box__item">
-            <div className="both-box__name">Amount</div>
-            <div className="both-box__value">
-              2,015.72
-              <div className="both-box__units">ETH</div>
-            </div>
-          </div>
-          <div className="both-box__item">
-            <div className="both-box__name">Founder</div>
-            <div className="both-box__value">lsidhjdmc</div>
-          </div>
-          <div className="both-box__item">
-            <div className="both-box__name">Recipient (you)</div>
-            <div className="both-box__value">lsidhjdmc</div>
-          </div>
-          <div className="both-box__item">
-            <div className="both-box__name">Secret hash</div>
-            <div className="both-box__value">
-              ushdjklkushdjklkushdjklkushdjklk
-            </div>
-          </div>
-          <div className="both-box__item">
-            <div className="both-box__name">Timelock, seconds</div>
-            <div className="both-box__value">10555</div>
-          </div>
-        </div>
-      </div>
+      <Table size={4} title="Recipient box" type="create" />
+      <Table size={5} title="Recipient box" type="" />
     </div>
   );
 };
