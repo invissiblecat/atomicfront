@@ -1,5 +1,6 @@
 import NewOrderForm from "app/components/deploy/deploy.form";
 import Header from "app/components/header";
+import MainTable from "app/components/main.table";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { animateScroll } from "react-scroll";
@@ -31,6 +32,7 @@ function MainPage() {
         </div>
         <div className="page__line"> </div>
       </div>
+      <MainTable />
       <div className="page__form" id="form">
         <NewOrderForm></NewOrderForm>
       </div>
