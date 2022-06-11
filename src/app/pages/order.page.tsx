@@ -5,25 +5,30 @@ import EndingStage from "app/components/ending-stage";
 import FirstBoxSend from "app/components/first-box";
 import SendTransaction from "app/components/send-transaction";
 import { FC } from "react";
+import { useParams } from "react-router-dom";
 import "./order.page.sass";
 
 type TProps = {
   title: string;
   subtitle: string;
+  timerTitle: string
 };
 
-const OrderPage: FC<TProps> = ({ title, subtitle }) => {
+const OrderPage: FC<TProps> = ({ title, subtitle, timerTitle }) => {
+  const { boxId } = useParams<{ boxId: string }>();
+  console.log({boxId})
+  
   return (
     <div className="order-page">
       <div className="order-page__title">
-        {/* {title} */}
+        {title}
         {/* Your order was succesfully created */}
       </div>
       <div className="order-page__subtitle">
-        {/* {subtitle} */}
+        {subtitle}
         {/* After responding to your offer, you will go to the next page. */}
       </div>
-      {/* <CreateOrder /> */}
+      <CreateOrder timerTitle={timerTitle} id={boxId}/>
       {/* <SendTransaction /> */}
       {/* <FirstBoxSend /> */}
       {/* <BothBoxSend /> */}

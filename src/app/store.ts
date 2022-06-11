@@ -8,12 +8,10 @@ import {
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import walletService from "services/wallet.service";
-import kycReducer from "../redux/kyc.slice";
 import { projectApi } from "../redux/project.api";
 import projectReducer from "../redux/project.slice";
 import { rootApi } from "../redux/root.api";
 import { tokenContractApi } from "../redux/token-contract.api";
-import { userApi } from "../redux/user.api";
 import walletReducer from "../redux/wallet.slice";
 
 enum Connector {
@@ -98,11 +96,9 @@ export const store = configureStore({
   reducer: {
     [rootApi.reducerPath]: rootApi.reducer,
     wallet: walletReducer,
-    KYCStatus: kycReducer,
     project: projectReducer,
     [tokenContractApi.reducerPath]: tokenContractApi.reducer,
     [projectApi.reducerPath]: projectApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -110,7 +106,6 @@ export const store = configureStore({
     })
       .concat(rootApi.middleware)
       .concat(projectApi.middleware)
-      .concat(userApi.middleware)
       .concat(tokenContractApi.middleware),
 });
 

@@ -5,7 +5,6 @@ import Web3Modal from "web3modal";
 import { USER_LOGIN_SIGNATURE_KEY } from "../constants";
 import { setupNetwork } from "../lib/chains";
 import apiService from "./api.service";
-import tokenService, { ONE_HOUR } from "./token.service";
 
 type THandler<T> = (arg0: T) => Promise<void>;
 
@@ -40,38 +39,12 @@ class WalletService {
     this.provider = new Web3Provider(this.web3ModalProvider);
     this.signer = this.provider.getSigner();
     this.network = await this.provider.getNetwork();
-    this.setupHandlers();
     const setupResult =
       process.env.REACT_APP_ENVIRONMENT === "production" &&
       (await setupNetwork());
 
     if (!setupResult) {
       this.handleDisconnect({});
-    }
-
-    if (tokenService.tokens) {
-      const timestamp = Date.now();
-
-      if (tokenService.tokens.accessExpiresIn - timestamp >= ONE_HOUR) {
-        return {
-          provider: this.provider,
-          web3ModalProvider: this.web3ModalProvider,
-          signer: this.signer,
-          network: this.network,
-        };
-      }
-
-      try {
-        await tokenService.updateToken();
-        return {
-          provider: this.provider,
-          web3ModalProvider: this.web3ModalProvider,
-          signer: this.signer,
-          network: this.network,
-        };
-      } catch (err: any) {
-        tokenService.removeToken();
-      }
     }
 
     return this.signLoginMessage(this.signer);
@@ -85,15 +58,11 @@ class WalletService {
     ) {
       await this.web3ModalProvider.disconnect();
     }
-    if (tokenService.tokens) {
-      tokenService.removeToken();
-    }
   }
 
   async signLoginMessage(signer: JsonRpcSigner) {
     try {
       this.signature = await signer.signMessage(USER_LOGIN_SIGNATURE_KEY);
-      await apiService.login(this.signature);
       return {
         provider: this.provider,
         web3ModalProvider: this.web3ModalProvider,
@@ -130,7 +99,6 @@ class WalletService {
     const handleChainChanged = async (chainId: string) => {
       const formattedChainId = BigNumber.from(chainId).toNumber();
       await this.handleChainChanged(formattedChainId);
-      tokenService.removeToken();
       window.location.reload();
     };
 

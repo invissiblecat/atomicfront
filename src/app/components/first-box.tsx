@@ -20,7 +20,7 @@ const FirstBoxSend = () => {
             className="first-box__form-button"
             placeholder="Send htlc transaction"
           >
-            Send htlc transaction
+           Deploy box
           </button>
         </div>
       </div>

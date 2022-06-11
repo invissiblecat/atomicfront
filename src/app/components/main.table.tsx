@@ -1,25 +1,55 @@
+import { ethers } from "ethers";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useGetBoxesQuery, useSetRecipientMutation } from "redux/project.api";
+import { selectWallet } from "redux/wallet.slice";
 import "./main.table.sass";
 
 const MainTable = () => {
+  const {data, isLoading}= useGetBoxesQuery(); //todo is loading
+  const wallet = useSelector(selectWallet);
+  const [setReciever, {}] =  useSetRecipientMutation();
+  const history = useHistory();
+  const idRows = [];
+  const sendRows = [];
+  const buyRows = [];
+  const onClick = async (boxId: string) => {
+    try {
+      const res = await setReciever({id: boxId, reciever: wallet.address});
+      if (Object.hasOwn(res, "data")) {
+        // @ts-ignore
+        history.push(`/orderSelected/${boxId}`)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  if (data) {
+    for (let i = 0; i < data.length; i++) {
+      idRows.push(<div className="main-table__value" onClick={() => onClick(data[i].id)}>{data[i].id}</div>)
+      sendRows.push(<div className="main-table__value">{ethers.utils.formatUnits(data[i].recieveAmount)} {data[i].recieveToken}</div>) //todo send token
+      buyRows.push(<div className="main-table__value">{ethers.utils.formatUnits(data[i].sendAmount)} {data[i].sendToken}</div>)
+    }
+
+  }
+
+
+  
+//todo click on full row 
   return (
-    <div className="main-table">
+    <div className="main-table"> 
       <div className="main-table__row">
         <div className="main-table__name">Order id</div>
-        <div className="main-table__value">593</div>
-        <div className="main-table__value">593</div>
-        <div className="main-table__value">593</div>
+        {idRows}
       </div>
       <div className="main-table__row">
-        <div className="main-table__name">Sent</div>
-        <div className="main-table__value">150 BTC</div>
-        <div className="main-table__value">150 BTC</div>
-        <div className="main-table__value">150 BTC</div>
+        <div className="main-table__name">Send</div>
+        {sendRows}
       </div>
       <div className="main-table__row">
         <div className="main-table__name">Buy</div>
-        <div className="main-table__value">585 ETH</div>
-        <div className="main-table__value">585 ETH</div>
-        <div className="main-table__value">585 ETH</div>
+        {buyRows}
       </div>
     </div>
   );
