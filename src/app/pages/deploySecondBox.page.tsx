@@ -11,31 +11,25 @@ import "./order.page.sass";
 type TProps = {
   title: string;
   subtitle: string;
-  timerTitle: string
 };
 
-const OrderPage: FC<TProps> = ({ title, subtitle, timerTitle }) => {
+const DeploySecondBox: FC<TProps> = ({ title, subtitle }) => {
   const { boxId } = useParams<{ boxId: string }>();
-  // console.log({boxId})
   
   return (
     <div className="order-page">
       <div className="order-page__title">
         {title}
-        {/* Your order was succesfully created */}
       </div>
       <div className="order-page__subtitle">
         {subtitle}
-        {/* After responding to your offer, you will go to the next page. */}
       </div>
-      <CreateOrder timerTitle={timerTitle} id={boxId}/>
-      {/* <SendTransaction /> */}
-      {/* <FirstBoxSend /> */}
+      <FirstBoxSend boxId={boxId} statusToUpdate='both deployed' redirect="waitFirstClaim"/>
       {/* <BothBoxSend /> */}
-      {/* <BoxSended /> */}
+      {/* <BoxSended id={boxId}/> */}
       {/* <EndingStage /> */}
     </div>
   );
 };
 
-export default OrderPage;
+export default DeploySecondBox;

@@ -1,43 +1,24 @@
-import { BigNumber, Contract, ContractTransaction } from "ethers";
-import RootArtifacts from "../abi/Root.json";
+import { BigNumber, Contract, ContractTransaction, ethers } from "ethers";
+import { setupNetwork } from "lib/utilities";
+import RegistryArtifacts from "../abi/Registry.json";
 import walletService from "./wallet.service";
-
-export enum State {
-  upcoming,
-  redeem,
-  fcfs,
-  claim,
-  distributed,
-}
-
-export type TBlockchainProject = {
-  id: BigNumber;
-  props: TProjectProps;
-  investors: string[];
-  amounts: BigNumber[];
-  redeemed: BigNumber[];
-  claimed: BigNumber[];
-  totalInvested: BigNumber;
-  availableBalance: BigNumber;
-  state: State;
-  isActive: boolean;
-};
-
-export type TProjectProps = {
-  token: string;
-  claimToken: string;
-  price: BigNumber;
-  claimDates: BigNumber[];
-  claimPercent: BigNumber[];
-};
 
 export type TOwner = string;
 
-class RootContract {
+export type TCreateBox = {
+  reciever: string;
+  token: string;
+  amount: string;
+  secret: string;
+  unlockTimestamp: number;
+  offchainId: string;
+}
+class RegistryContract {
   contracts: { [key: string]: Contract } = {};
 
   _getContract(address: string) {
     // if (!Object.keys(this.contracts).includes(address)) {
+      console.log({address})
     return this._registerContract(address);
     // }x
     // return this.contracts[address];
@@ -46,70 +27,39 @@ class RootContract {
   _registerContract(address: string) {
     const contract = new Contract(
       address,
-      RootArtifacts.abi,
+      RegistryArtifacts.abi,
       walletService.provider
     );
     this.contracts[address] = contract;
     return contract;
   }
 
-  projectById({
-    address,
-    blockchainId,
+  async createBox({
+    props,
+    contractNetwork,
   }: {
-    address: string;
-    blockchainId: number;
-  }): Promise<TBlockchainProject> {
-    const contract = this._getContract(address);
-    return contract.projectById(blockchainId);
-  }
-
-  redeemAllocation({
-    address,
-    blockchainId,
-  }: {
-    address: string;
-    blockchainId: number;
+    props: TCreateBox;
+    contractNetwork: string;
   }): Promise<ContractTransaction> {
+    await setupNetwork(contractNetwork);
+    const address = this.getRegistryAddress(contractNetwork)
+    const hashSecret = ethers.utils.id(props.secret);
     const contract = this._getContract(address);
     return contract
       .connect(walletService.signer!)
-      .redeemAllocation(blockchainId);
+      .createBox(props.reciever, props.token, props.amount, hashSecret, props.unlockTimestamp, props.offchainId);
   }
 
-  redeemAllocationFCFS({
-    address,
-    functionSignature,
-    r,
-    s,
-    v,
-    signerAddress,
-  }: {
-    address: string;
-    functionSignature: any;
-    r: any;
-    s: any;
-    v: any;
-    signerAddress: string;
-  }): Promise<ContractTransaction> {
-    const contract = this._getContract(address); //todo where to place server signing address?
-    return contract
-      .connect(walletService.signer!)
-      .executeMetaTransaction(signerAddress, functionSignature, r, s, v);
+  getRegistryAddress(contractNetwork: string): string {
+    switch(contractNetwork){
+      case 'Ethereum': return process.env.REACT_APP_ETHEREUM_REGISTRY!;
+      case 'Avalanche': return process.env.REACT_APP_AVALANCHE_REGISTRY!;
+      default: return ''
+    }
   }
 
-  claimProject({
-    address,
-    blockchainId,
-  }: {
-    address: string;
-    blockchainId: number;
-  }): Promise<ContractTransaction> {
-    const contract = this._getContract(address);
-    return contract.connect(walletService.signer!).claimProject(blockchainId);
-  }
 }
 
-const rootContract = new RootContract();
+const registryContract = new RegistryContract();
 
-export default rootContract;
+export default registryContract;

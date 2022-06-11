@@ -11,23 +11,23 @@ const NewOrderForm = () => {
   const wallet = useSelector(selectWallet);
   const [fromAmount, setFromAmount] = useState('');
   const [toAmount, setToAmount] = useState('');
-  const [fromToken, setFromToken] = useState('AvalancheToken');
-  const [toToken, setToToken] = useState('EthereumToken');
+  const [fromToken, setFromToken] = useState(process.env.REACT_APP_TAVAX!);
+  const [toToken, setToToken] = useState(process.env.REACT_APP_TETH!);
   const [fromNetwork, setFromNetwork] = useState('Avalanche');
   const [toNetwork, setToNetwork] = useState('Ethereum');
 
   const handleFrom = (tokenName: string) => {
     console.log(process.env.REACT_APP_API)
     switch (tokenName) {
-      case 'AvalancheToken': setFromNetwork('Avalanche'); setFromToken(''); break; //todo address
-      case 'EthereumToken': setFromNetwork('Ethereum'); setFromToken(''); break;
+      case 'AvalancheToken': setFromNetwork('Avalanche'); setFromToken(process.env.REACT_APP_TAVAX!); break; //todo address
+      case 'EthereumToken': setFromNetwork('Ethereum'); setFromToken(process.env.REACT_APP_TETH!); break;
     }
   }
 
   const handleTo = (tokenName: string) => {
     switch (tokenName) {
-      case 'AvalancheToken': setToNetwork('Avalanche'); setToToken(''); break;
-      case 'EthereumToken': setToNetwork('Ethereum'); setToToken(''); break;
+      case 'AvalancheToken': setToNetwork('Avalanche'); setToToken(process.env.REACT_APP_TAVAX!); break;
+      case 'EthereumToken': setToNetwork('Ethereum'); setToToken(process.env.REACT_APP_TETH!); break;
     }
   }
   const history = useHistory();
@@ -68,15 +68,15 @@ const NewOrderForm = () => {
           <span className="new-order__form-token-info">
             <input className="new-order__form-input" placeholder="From" onChange={e => setFromAmount(ethers.utils.parseUnits(e.target.value).toString())}></input>
             <select className="new-order__form-select" defaultValue={'AvalancheToken'} onChange={e => handleFrom(e.target.value)}>
-              <option value='AvalancheToken'>AVL</option>
-              <option value='EthereumToken'>ETH</option>
+              <option value='AvalancheToken'>tAVAX</option>
+              <option value='EthereumToken'>tETH</option>
             </select>
           </span>
           <span className="new-order__form-token-info">
             <input className="new-order__form-input" placeholder="To" onChange={e => setToAmount(ethers.utils.parseUnits(e.target.value).toString())}></input>
             <select className="new-order__form-select" defaultValue={'EthereumToken'} onChange={e => handleTo(e.target.value)}>
-            <option value='AvalancheToken'>AVL</option>
-              <option value='EthereumToken'>ETH</option>
+            <option value='AvalancheToken'>tAVAX</option>
+              <option value='EthereumToken'>tETH</option>
             </select>
           </span>
         </div>

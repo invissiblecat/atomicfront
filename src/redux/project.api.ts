@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { TProjectResponseData, TProjectRequestData, TSetReciever } from "./types";
+import { TProjectResponseData, TProjectRequestData } from "./types";
 
 export const projectApi = createApi({
     reducerPath: 'projectApi',
@@ -28,15 +28,15 @@ export const projectApi = createApi({
           query: (id) =>
             `/boxes/${id}`,
         }),
-        setRecipient: builder.mutation<TProjectResponseData, TSetReciever>({
-          query: ({ id, reciever}) => ({
+        patchBox: builder.mutation<TProjectResponseData, {id: string, body: Partial<TProjectResponseData>}>({
+          query: ({ id, body}) => ({
             url: `/boxes/${id}`,
             method: "PATCH",
-            body: {reciever},
+            body: body,
           }),
         }),
     })
 
 });
 
-export const {useCreateBoxMutation, useGetBoxBySenderQuery, useGetBoxesQuery, useGetBoxByIdQuery, useSetRecipientMutation} = projectApi;
+export const {useCreateBoxMutation, useGetBoxBySenderQuery, useGetBoxesQuery, useGetBoxByIdQuery, usePatchBoxMutation} = projectApi;

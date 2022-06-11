@@ -29,7 +29,7 @@ const OrderCreatedPage: FC<TProps> = ({ title, subtitle }) => {
     if (box && box.reciever !== '') {
       history.push(`/deploySender/${boxId}`)
     }
-  }, [box?.reciever]);
+  }, [box]);
 
   
   return (

@@ -59,3 +59,92 @@ export const validations = {
 export const log = (...args: any) => {
   if (process.env.REACT_APP_DEBUG === "true") console.log("DEBUG ", ...args);
 };
+
+export enum ChainId {
+  AVALANCHE = 43113,
+  ETHEREUM = 4,
+}
+const getChainId = (networkName: string) => {
+  switch (networkName) {
+    case 'Ethereum': return +process.env.REACT_APP_ETHEREUM_CHAINID! as ChainId
+    case 'Avalanche': return +process.env.REACT_APP_AVALANCHE_CHAINID! as ChainId
+    default: throw new Error('Unknown network');
+  }
+}
+
+export const NETWORK_NAMES = {
+  [ChainId.AVALANCHE]: "Avalanche FUJI C-Chain",
+  [ChainId.ETHEREUM]: "Rinkeby Test Network",
+};
+
+export const NATIVE_CURRENCY = {
+  [ChainId.AVALANCHE]: {
+    name: 'AVAX',
+    symbol: 'AVAX',
+    decimals: 18
+  },
+  [ChainId.ETHEREUM]: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18
+  }
+}
+
+export const NODES = {
+  [ChainId.AVALANCHE]: ["https://api.avax-test.network/ext/bc/C/rpc"],
+  [ChainId.ETHEREUM]: [
+    "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+  ],
+};
+
+export const BSC_SCAN_URLS = {
+  [ChainId.AVALANCHE]: ["https://testnet.snowtrace.io/"],
+  [ChainId.ETHEREUM]: ["https://rinkeby.etherscan.io"],
+};
+
+export const setupNetwork = async (networkName: string) => {
+  const provider = window.ethereum;
+  const chainId = getChainId(networkName);
+  console.log({chainId})
+  if (provider) {
+    try {
+      await window.ethereum.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${chainId.toString(16)}` }],
+      });
+    } catch (switchErr: any) {
+      if (switchErr.code === 4902) {
+
+        try {
+          await provider.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: `0x${chainId.toString(16)}`,
+                chainName: NETWORK_NAMES[chainId],
+                nativeCurrency: NATIVE_CURRENCY[chainId],
+                rpcUrls: NODES[chainId],
+                blockExplorerUrls: BSC_SCAN_URLS[chainId],
+              },
+            ],
+          });
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${chainId.toString(16)}` }],
+          });
+          return true;
+        } catch (error) {
+          console.error("Failed to setup the network in Metamask:", error);
+          return false;
+        }
+      } else {
+        console.error(
+          "Can't setup the BSC network on metamask because window.ethereum is undefined"
+        );
+        return false;
+      }
+      }
+    }
+};
+
+

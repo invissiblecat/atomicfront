@@ -3,8 +3,8 @@ import "./create-order.sass";
 import { useGetBoxByIdQuery, useGetBoxBySenderQuery } from "redux/project.api";
 import { selectWallet } from "redux/wallet.slice";
 import { useSelector } from "react-redux";
-import { FC } from "react";
-import { useParams } from "react-router-dom";
+import { FC, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 type TProps = {
   timerTitle: string;
@@ -14,8 +14,14 @@ type TProps = {
 const CreateOrder: FC<TProps> = ({timerTitle, id}) => {
   const wallet = useSelector(selectWallet);
   const {data} = useGetBoxByIdQuery(id);
-  console.log({id})
-  console.log({data})
+  const history = useHistory();
+
+  useEffect(() => {
+    if (data && data.status === 'first deployed') {
+      history.push(`/deployReciever/${id}`)
+    }
+  }, [data?.status]);
+
   return (
     <div className="create-order">
       <div className="create-order__state-loading">

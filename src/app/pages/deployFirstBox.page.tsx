@@ -14,7 +14,7 @@ type TProps = {
 };
 
 const DeployFirstBox: FC<TProps> = ({ title, subtitle }) => {
-  const { id } = useParams<{ id: string }>();
+  const { boxId } = useParams<{ boxId: string }>();
   
   return (
     <div className="order-page">
@@ -24,7 +24,7 @@ const DeployFirstBox: FC<TProps> = ({ title, subtitle }) => {
       <div className="order-page__subtitle">
         {subtitle}
       </div>
-      <FirstBoxSend />
+      <FirstBoxSend boxId={boxId} statusToUpdate='first deployed' redirect="waitForRecieverDeploy"/>
       {/* <BothBoxSend /> */}
       {/* <BoxSended /> */}
       {/* <EndingStage /> */}

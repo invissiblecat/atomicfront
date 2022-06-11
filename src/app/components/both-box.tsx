@@ -24,6 +24,12 @@ const BothBoxSend = () => {
         </div>
         <div className="both-box__time">15:23:16</div>
       </div>
+      <button
+          className="send-transaction__form-button"
+          placeholder="Send htlc transaction"
+        >
+          Send htlc transaction
+        </button>
       <Table size={4} title="Recipient box" type="create" />
       <Table size={5} title="Recipient box" type="" />
     </div>

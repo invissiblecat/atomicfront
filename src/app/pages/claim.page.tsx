@@ -14,7 +14,7 @@ type TProps = {
   timerTitle: string
 };
 
-const OrderPage: FC<TProps> = ({ title, subtitle, timerTitle }) => {
+const ClaimPage: FC<TProps> = ({ title, subtitle, timerTitle }) => {
   const { boxId } = useParams<{ boxId: string }>();
   // console.log({boxId})
   
@@ -22,20 +22,18 @@ const OrderPage: FC<TProps> = ({ title, subtitle, timerTitle }) => {
     <div className="order-page">
       <div className="order-page__title">
         {title}
-        {/* Your order was succesfully created */}
       </div>
       <div className="order-page__subtitle">
         {subtitle}
-        {/* After responding to your offer, you will go to the next page. */}
       </div>
-      <CreateOrder timerTitle={timerTitle} id={boxId}/>
+      {/* <CreateOrder timerTitle={timerTitle} id={boxId}/> */}
       {/* <SendTransaction /> */}
       {/* <FirstBoxSend /> */}
-      {/* <BothBoxSend /> */}
+      <BothBoxSend />
       {/* <BoxSended /> */}
       {/* <EndingStage /> */}
     </div>
   );
 };
 
-export default OrderPage;
+export default ClaimPage;

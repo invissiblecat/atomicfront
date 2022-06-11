@@ -10,7 +10,7 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import walletService from "services/wallet.service";
 import { projectApi } from "../redux/project.api";
 import projectReducer from "../redux/project.slice";
-import { rootApi } from "../redux/root.api";
+import { registryApi } from "../redux/registry.api";
 import { tokenContractApi } from "../redux/token-contract.api";
 import walletReducer from "../redux/wallet.slice";
 
@@ -94,7 +94,7 @@ export const walletSlice = createSlice({
 
 export const store = configureStore({
   reducer: {
-    [rootApi.reducerPath]: rootApi.reducer,
+    [registryApi.reducerPath]: registryApi.reducer,
     wallet: walletReducer,
     project: projectReducer,
     [tokenContractApi.reducerPath]: tokenContractApi.reducer,
@@ -104,7 +104,7 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     })
-      .concat(rootApi.middleware)
+      .concat(registryApi.middleware)
       .concat(projectApi.middleware)
       .concat(tokenContractApi.middleware),
 });

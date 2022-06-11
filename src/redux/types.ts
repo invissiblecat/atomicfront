@@ -6,19 +6,16 @@ export type TProjectRequestData = {
   recieveToken: string;
   sendAmount: string;
   recieveAmount: string;
-  unlockTimestamp?: string;
+  unlockTimestamp?: number;
   secret?: string;
 }
 
 export type TProjectResponseData = TProjectRequestData & {
   id: string
   reciever?: string;
+  status: string;
 };
 
-export type TSetReciever = {
-  id: string,
-  reciever: string
-}
 
 
 
