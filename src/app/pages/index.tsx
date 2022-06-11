@@ -7,6 +7,7 @@ import ClaimPage from "./claim.page";
 import DeployFirstBox from "./deployFirstBox.page";
 import DeploySecondBox from "./deploySecondBox.page";
 import SecondBoxWait from "./deploySecondBoxWait.page";
+import EndingPage from "./ending.page";
 import MainPage from "./main.page";
 import OrderPage from "./order.page";
 import OrderCreatedPage from "./orderCreated.page";
@@ -35,10 +36,16 @@ function Pages() {
         <DeploySecondBox title="First box deployed" subtitle="Now it's your turn to deploy"/>
       </Route>
       <Route path="/firstClaim/:boxId" exact>
-        <ClaimPage title="Both box deployed" subtitle="You can claim your money" timerTitle=''/>
+        <ClaimPage title="Both box deployed" subtitle="You can claim your money" timerTitle='' statusToUpdate="first claimed" redirect="ending"/>
       </Route>
       <Route path="/waitFirstClaim/:boxId" exact>
-        <ClaimPage title="Both box deployed" subtitle="Wait for your partner to claim" timerTitle=''/>
+        <ClaimPage title="Both box deployed" subtitle="Wait for your partner to claim" timerTitle='' statusToUpdate="first claimed" redirect="secondClaim"/>
+      </Route>
+      <Route path="/secondClaim/:boxId" exact>
+        <ClaimPage title="Both box deployed" subtitle="You can claim your money" timerTitle='' statusToUpdate="both claim" redirect="ending"/>
+      </Route>
+      <Route path="/ending/:boxId" exact>
+        <EndingPage/>
       </Route>
     </Switch>
   );

@@ -1,38 +1,23 @@
+import { FC } from "react";
+import { useGetBoxByIdQuery } from "redux/project.api";
 import "./both-box.sass";
+import BoxSended from "./box-sended";
 import Table from "./table";
 
-const BothBoxSend = () => {
+type TProps = {
+  timerTitle: string;
+  id: string
+  statusToUpdate: string
+  redirect: string
+};
+
+const BothBoxSend: FC<TProps> = ({timerTitle, id, statusToUpdate, redirect}) => {
+  const {data} = useGetBoxByIdQuery(id);
+  
   return (
-    <div className="both-box">
-      <div className="both-box__addresses">
-        <div className="both-box__item">
-          <div className="both-box__name">Your box address</div>
-          <div className="both-box__value">
-            ushdjklkushdjklkushdjklkushdjklkidj...
-          </div>
-        </div>
-        <div className="both-box__item">
-          <div className="both-box__name">Partner’s box address</div>
-          <div className="both-box__value">
-            ushdjklkushdjklkushdjklkushdjklkidj...
-          </div>
-        </div>
-      </div>
-      <div className="both-box__state-loading">
-        <div className="both-box__description-text">
-          Looking for a partner...
-        </div>
-        <div className="both-box__time">15:23:16</div>
-      </div>
-      <button
-          className="send-transaction__form-button"
-          placeholder="Send htlc transaction"
-        >
-          Send htlc transaction
-        </button>
-      <Table size={4} title="Recipient box" type="create" />
-      <Table size={5} title="Recipient box" type="" />
-    </div>
+    <>
+     <BoxSended id={id} statusToUpdate={statusToUpdate} redirect={redirect}></BoxSended>
+    </>
   );
 };
 

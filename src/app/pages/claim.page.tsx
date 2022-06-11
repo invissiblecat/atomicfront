@@ -11,12 +11,13 @@ import "./order.page.sass";
 type TProps = {
   title: string;
   subtitle: string;
-  timerTitle: string
+  timerTitle: string;
+  statusToUpdate: string;
+  redirect: string
 };
 
-const ClaimPage: FC<TProps> = ({ title, subtitle, timerTitle }) => {
+const ClaimPage: FC<TProps> = ({ title, subtitle, timerTitle, statusToUpdate, redirect}) => {
   const { boxId } = useParams<{ boxId: string }>();
-  // console.log({boxId})
   
   return (
     <div className="order-page">
@@ -29,7 +30,7 @@ const ClaimPage: FC<TProps> = ({ title, subtitle, timerTitle }) => {
       {/* <CreateOrder timerTitle={timerTitle} id={boxId}/> */}
       {/* <SendTransaction /> */}
       {/* <FirstBoxSend /> */}
-      <BothBoxSend />
+      <BothBoxSend id={boxId} timerTitle={timerTitle} statusToUpdate={statusToUpdate} redirect={redirect}/>
       {/* <BoxSended /> */}
       {/* <EndingStage /> */}
     </div>

@@ -13,7 +13,7 @@ type args = {
 
 const Header: FC<args> = ({ links }) => {
   const wallet = useSelector(selectWallet);
-  const { connect, disconnect } = useActions();
+  console.log(wallet.address)
 
   return (
     <div className="header">
@@ -23,11 +23,11 @@ const Header: FC<args> = ({ links }) => {
       <a className="header__item" href={`#${links[1]}`}>
         Form
       </a>
-      {!wallet.address && (
-        <button onClick={() => {
-          connect()}}>connect wallet</button>
+      {wallet.address && (
+              <a className="header__item">
+              {wallet.address}
+            </a>
       )}
-      <Link to="/order"></Link>
     </div>
   );
 };

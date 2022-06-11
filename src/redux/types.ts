@@ -14,6 +14,8 @@ export type TProjectResponseData = TProjectRequestData & {
   id: string
   reciever?: string;
   status: string;
+  sendBlockchainId?: number;
+  recieveBlockchainId?: number;
 };
 
 
