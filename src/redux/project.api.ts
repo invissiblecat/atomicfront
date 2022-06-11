@@ -14,15 +14,13 @@ export const projectApi = createApi({
               body: projectData,
             }),
           }),
-        getBoxBySender: builder.query<TProjectResponseData[], string>({
-          query: (address) =>
-            `/boxes?filter=${JSON.stringify({
-              where: {and: [{sender: address}, {status: 'not deployed'}]}
-            })}`,
+        getBox: builder.query<TProjectResponseData[], {where: any}>({
+          query: (where) =>
+            `/boxes?filter=${JSON.stringify(where)}`,
         }),
-        getBoxes: builder.query<TProjectResponseData[], void>({
-          query: () =>
-            `/boxes`,
+        getBoxes: builder.query<TProjectResponseData[], {where: any}>({
+          query: (where) =>
+            `/boxes?filter=${JSON.stringify(where)}`,
         }),
         getBoxById: builder.query<TProjectResponseData, string>({
           query: (id) =>
@@ -39,4 +37,4 @@ export const projectApi = createApi({
 
 });
 
-export const {useCreateBoxMutation, useGetBoxBySenderQuery, useGetBoxesQuery, useGetBoxByIdQuery, usePatchBoxMutation} = projectApi;
+export const {useCreateBoxMutation, useGetBoxQuery, useGetBoxesQuery, useGetBoxByIdQuery, usePatchBoxMutation} = projectApi;

@@ -1,5 +1,5 @@
 import { BigNumber, Contract, ContractTransaction, ethers } from "ethers";
-import { setupNetwork } from "lib/utilities";
+import { setupNetwork, switchNetwork } from "lib/utilities";
 import RegistryArtifacts from "../abi/Registry.json";
 import walletService from "./wallet.service";
 
@@ -42,6 +42,7 @@ class RegistryContract {
     contractNetwork: string;
   }): Promise<ContractTransaction> {
     await setupNetwork(contractNetwork);
+    await switchNetwork(contractNetwork);
     const address = this.getRegistryAddress(contractNetwork)
     const hashSecret = ethers.utils.id(props.secret);
     const contract = this._getContract(address);

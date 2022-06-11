@@ -39,13 +39,6 @@ class WalletService {
     this.provider = new Web3Provider(this.web3ModalProvider);
     this.signer = this.provider.getSigner();
     this.network = await this.provider.getNetwork();
-    const setupResult =
-      process.env.REACT_APP_ENVIRONMENT === "production" &&
-      (await setupNetwork());
-
-    if (!setupResult) {
-      this.handleDisconnect({});
-    }
 
     return this.signLoginMessage(this.signer);
   }

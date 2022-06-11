@@ -105,16 +105,7 @@ export const BSC_SCAN_URLS = {
 export const setupNetwork = async (networkName: string) => {
   const provider = window.ethereum;
   const chainId = getChainId(networkName);
-  console.log({chainId})
   if (provider) {
-    try {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${chainId.toString(16)}` }],
-      });
-    } catch (switchErr: any) {
-      if (switchErr.code === 4902) {
-
         try {
           await provider.request({
             method: "wallet_addEthereumChain",
@@ -128,10 +119,6 @@ export const setupNetwork = async (networkName: string) => {
               },
             ],
           });
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${chainId.toString(16)}` }],
-          });
           return true;
         } catch (error) {
           console.error("Failed to setup the network in Metamask:", error);
@@ -139,12 +126,22 @@ export const setupNetwork = async (networkName: string) => {
         }
       } else {
         console.error(
-          "Can't setup the BSC network on metamask because window.ethereum is undefined"
+          "Can't setup the network on metamask because window.ethereum is undefined"
         );
         return false;
       }
-      }
-    }
 };
+
+export const switchNetwork = async (networkName: string) => {
+  const chainId = getChainId(networkName);
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: `0x${chainId.toString(16)}` }],
+    });
+  } catch (switchErr: any) {
+    console.log(switchErr)
+}
+}
 
 

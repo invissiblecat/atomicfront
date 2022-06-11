@@ -13,7 +13,7 @@ type args = {
 
 const Header: FC<args> = ({ links }) => {
   const wallet = useSelector(selectWallet);
-  console.log(wallet.address)
+  // console.log(wallet.address)
 
   return (
     <div className="header">

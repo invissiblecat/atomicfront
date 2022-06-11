@@ -18,45 +18,14 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
   const {data} = useGetBoxByIdQuery(id);
   const wallet = useSelector(selectWallet);
   const [yourBox, setYourBox] = useState({  type: "Your",
-  id: data?.sendBlockchainId!,
-  sendNetwork: data?.sendNetwork!,
-  sendAmount: data?.sendAmount!,
-  sendToken: data?.sendToken!,
-  unlockTimestamp: data?.unlockTimestamp!,
-  sender: data?.sender!,
-  reciever: data?.reciever!});
-  const [partnerBox, setPartnerBox] = useState({  type: "Your",
-  id: data?.sendBlockchainId!,
-  sendNetwork: data?.sendNetwork!,
-  sendAmount: data?.sendAmount!,
-  sendToken: data?.sendToken!,
-  unlockTimestamp: data?.unlockTimestamp!,
-  sender: data?.sender!,
-  reciever: data?.reciever!});
-  const history = useHistory();
-
-  const validate = checkAddress(wallet.address, data?.sender!, data?.reciever!);
-
-  switch (validate) {
-    case 'sender': 
-      setYourBox({  type: "Your",
-        id: data?.sendBlockchainId!,
-        sendNetwork: data?.sendNetwork!,
-        sendAmount: data?.sendAmount!,
-        sendToken: data?.sendToken!,
-        unlockTimestamp: data?.unlockTimestamp!,
-        sender: data?.sender!,
-        reciever: data?.reciever!}); 
-      setPartnerBox({  type: "Partner",
-      id: data?.recieveBlockchainId!,
-      sendNetwork: data?.recieveNetwork!,
-      sendAmount: data?.recieveAmount!,
-      sendToken: data?.recieveToken!,
-      unlockTimestamp: +data?.unlockTimestamp! + 3600,
-      sender: data?.reciever!,
-      reciever: data?.sender!}); break;
-    case "reciever": 
-      setYourBox({  type: "Your",
+          id: data?.sendBlockchainId!,
+          sendNetwork: data?.sendNetwork!,
+          sendAmount: data?.sendAmount!,
+          sendToken: data?.sendToken!,
+          unlockTimestamp: data?.unlockTimestamp!,
+          sender: data?.sender!,
+          reciever: data?.reciever!});
+  const [partnerBox, setPartnerBox] = useState({  type: "Partner",
         id: data?.recieveBlockchainId!,
         sendNetwork: data?.recieveNetwork!,
         sendAmount: data?.recieveAmount!,
@@ -64,16 +33,54 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         unlockTimestamp: +data?.unlockTimestamp! + 3600,
         sender: data?.reciever!,
         reciever: data?.sender!});
-      setPartnerBox({  type: "Partner",
-        id: data?.sendBlockchainId!,
-        sendNetwork: data?.sendNetwork!,
-        sendAmount: data?.sendAmount!,
-        sendToken: data?.sendToken!,
-        unlockTimestamp: data?.unlockTimestamp!,
-        sender: data?.sender!,
-        reciever: data?.reciever!}); break;
-      case "redirect": history.push(`/`); break;
-  }
+  const history = useHistory();
+
+  // const setBoxes = () => {
+  //   const validate = checkAddress(wallet.address, data?.sender!, data?.reciever!);
+  
+  //   switch (validate) {
+  //     case 'sender': 
+  //       setYourBox({  type: "Your",
+  //         id: data?.sendBlockchainId!,
+  //         sendNetwork: data?.sendNetwork!,
+  //         sendAmount: data?.sendAmount!,
+  //         sendToken: data?.sendToken!,
+  //         unlockTimestamp: data?.unlockTimestamp!,
+  //         sender: data?.sender!,
+  //         reciever: data?.reciever!}); 
+  //       setPartnerBox({  type: "Partner",
+  //       id: data?.recieveBlockchainId!,
+  //       sendNetwork: data?.recieveNetwork!,
+  //       sendAmount: data?.recieveAmount!,
+  //       sendToken: data?.recieveToken!,
+  //       unlockTimestamp: +data?.unlockTimestamp! + 3600,
+  //       sender: data?.reciever!,
+  //       reciever: data?.sender!}); break;
+  //     case "reciever": 
+  //       setYourBox({  type: "Your",
+  //         id: data?.recieveBlockchainId!,
+  //         sendNetwork: data?.recieveNetwork!,
+  //         sendAmount: data?.recieveAmount!,
+  //         sendToken: data?.recieveToken!,
+  //         unlockTimestamp: +data?.unlockTimestamp! + 3600,
+  //         sender: data?.reciever!,
+  //         reciever: data?.sender!});
+  //       setPartnerBox({  type: "Partner",
+  //         id: data?.sendBlockchainId!,
+  //         sendNetwork: data?.sendNetwork!,
+  //         sendAmount: data?.sendAmount!,
+  //         sendToken: data?.sendToken!,
+  //         unlockTimestamp: data?.unlockTimestamp!,
+  //         sender: data?.sender!,
+  //         reciever: data?.reciever!}); break;
+  //       case "redirect": history.push(`/`); break;
+  //       default: break;
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   setBoxes();
+  // }, [])
 
 
   useEffect(() => {
@@ -81,7 +88,7 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         history.push(`/${redirect}/${id}`)
     }
   }, [data?.status]);
-  
+
   return (
    <>
    <BoxInfo data={yourBox}></BoxInfo>

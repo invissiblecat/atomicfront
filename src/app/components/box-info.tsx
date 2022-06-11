@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { FC, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useGetBoxByIdQuery } from "redux/project.api";
@@ -20,7 +20,7 @@ type TProps = {
 };
 
 const BoxInfo: FC<TProps> = ({data}) => {
-  
+  console.log(data)
   return (
     <div className="box-sended">
       <div className="box-sended__state-success">
@@ -40,7 +40,7 @@ const BoxInfo: FC<TProps> = ({data}) => {
           <div className="box-sended__item">
             <div className="box-sended__name">Amount</div>
             <div className="box-sended__value">
-              {ethers.utils.formatUnits(data!.sendAmount)}
+              {ethers.utils.formatUnits(BigNumber.from(data!.sendAmount))}
               <div className="box-sended__units">{getTokenSymbol(data?.sendToken!)}</div>
             </div>
           </div>

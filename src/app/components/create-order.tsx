@@ -1,6 +1,6 @@
 import Table from "./table";
 import "./create-order.sass";
-import { useGetBoxByIdQuery, useGetBoxBySenderQuery } from "redux/project.api";
+import { useGetBoxByIdQuery, useGetBoxQuery } from "redux/project.api";
 import { selectWallet } from "redux/wallet.slice";
 import { useSelector } from "react-redux";
 import { FC, useEffect } from "react";

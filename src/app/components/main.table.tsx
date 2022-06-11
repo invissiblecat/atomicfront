@@ -6,7 +6,7 @@ import { selectWallet } from "redux/wallet.slice";
 import "./main.table.sass";
 
 const MainTable = () => {
-  const {data, isLoading}= useGetBoxesQuery(); //todo is loading
+  const {data, isLoading}= useGetBoxesQuery({where: {status: 'not deployed'}}); //todo is loading
   const wallet = useSelector(selectWallet);
   const [setReciever, {}] =  usePatchBoxMutation();
   const history = useHistory();

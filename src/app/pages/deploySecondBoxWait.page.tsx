@@ -24,10 +24,7 @@ const SecondBoxWait: FC<TProps> = ({ title, subtitle }) => {
       <div className="order-page__subtitle">
         {subtitle}
       </div>
-      {/* <FirstBoxSend boxId={boxId}/> */}
-      {/* <BothBoxSend /> */}
       <BoxSended id={boxId} statusToUpdate='both deployed' redirect="firstClaim"/>
-      {/* <EndingStage /> */}
     </div>
   );
 };
