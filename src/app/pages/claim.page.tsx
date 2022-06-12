@@ -27,12 +27,7 @@ const ClaimPage: FC<TProps> = ({ title, subtitle, timerTitle, statusToUpdate, re
       <div className="order-page__subtitle">
         {subtitle}
       </div>
-      {/* <CreateOrder timerTitle={timerTitle} id={boxId}/> */}
-      {/* <SendTransaction /> */}
-      {/* <FirstBoxSend /> */}
       <BothBoxSend id={boxId} timerTitle={timerTitle} statusToUpdate={statusToUpdate} redirect={redirect}/>
-      {/* <BoxSended /> */}
-      {/* <EndingStage /> */}
     </div>
   );
 };

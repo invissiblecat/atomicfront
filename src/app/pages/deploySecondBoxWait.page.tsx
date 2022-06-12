@@ -11,9 +11,12 @@ import "./order.page.sass";
 type TProps = {
   title: string;
   subtitle: string;
+  timerTitle: string;
+  statusToUpdate: string;
+  redirect: string
 };
 
-const SecondBoxWait: FC<TProps> = ({ title, subtitle }) => {
+const SecondBoxWait: FC<TProps> = ({ title, subtitle, timerTitle, statusToUpdate, redirect }) => {
   const { boxId } = useParams<{ boxId: string }>();
   
   return (
@@ -24,7 +27,8 @@ const SecondBoxWait: FC<TProps> = ({ title, subtitle }) => {
       <div className="order-page__subtitle">
         {subtitle}
       </div>
-      <BoxSended id={boxId} statusToUpdate='both deployed' redirect="firstClaim"/>
+      <BothBoxSend id={boxId} timerTitle={timerTitle} statusToUpdate={statusToUpdate} redirect={redirect}/>
+      {/* <BoxSended id={boxId} statusToUpdate= redirect="firstClaim"/> */}
     </div>
   );
 };

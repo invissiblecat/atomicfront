@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useActions } from "../hooks/use-actions";
+
 export const getTokenSymbol = (tokenAddress: string) => {
     switch (tokenAddress) {
       case process.env.REACT_APP_TETH: return 'tETH';
@@ -13,4 +16,8 @@ export const checkAddress = (address: string, sender: string, reciever: string) 
     else {
         return 'redirect'
     }
+}
+
+export const connectWallet = (address: string) => {
+
 }

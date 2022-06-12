@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import {setupNetwork, switchNetwork } from "lib/utilities";
 import { pick } from "lodash";
-import registryContract, { TCreateBox } from "services/root.contract";
+import registryContract, { TBox, TClaim, TCreateBox } from "services/registry.contract";
 
 export const registryApi = createApi({
   reducerPath: "registryApi",
@@ -29,7 +29,51 @@ export const registryApi = createApi({
         }
       },
     }),
+    claim: builder.mutation<
+    null, 
+    {props: TClaim, contractNetwork: string}
+    >({
+      async queryFn({props, contractNetwork}): Promise<any> {
+        try {
+          const tx = await registryContract.claimBox({
+            props,
+            claimNetwork: contractNetwork
+          });
+          await tx.wait()
+          return;
+        } catch (error) {
+          console.error("claim err: ", error);
+          return error;
+        }
+      },
+    }),
+    getBox: builder.query<
+    TBox, 
+    {boxId: number, contractNetwork: string}
+    >({
+      async queryFn({boxId, contractNetwork}): Promise<any> {
+        try {
+          const res = await registryContract.getBox({boxId, contractNetwork});
+          return {
+            data: pick(
+              res,
+              "id",
+              "sender",
+              "reciever",
+              "token",
+              "amount",
+              "hashSecret",
+              "unlockTimestamp",
+              "isActive"
+            )
+            }
+        } catch (error) {
+          console.error("getBox err: ", error);
+          return error;
+        }
+      },
+    }),
   }),
 });
 
-export const { useCreateBoxMutation } = registryApi;
+export const { useCreateBoxMutation, useClaimMutation, useGetBoxQuery} = registryApi;

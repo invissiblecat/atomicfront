@@ -1,13 +1,18 @@
 import { BigNumber, ethers } from "ethers";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useGetBoxByIdQuery } from "redux/project.api";
+import { useClaimMutation, useGetBoxQuery } from "redux/registry.api";
 import { TProjectResponseData } from "redux/types";
+import { selectWallet } from "redux/wallet.slice";
+import { TClaim } from "services/registry.contract";
 import "./box-sended.sass";
 import { getTokenSymbol } from "./utils/utils";
 
 type TProps = {
   data: {
+    status: string,
     type: string,
     id: number,
     sendNetwork: string;
@@ -16,10 +21,33 @@ type TProps = {
     unlockTimestamp: number;
     sender: string;
     reciever: string;
+    claimProps: TClaim & {claimNetwork: string}
   }
 };
 
 const BoxInfo: FC<TProps> = ({data}) => {
+  const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
+  const [boxStatus, setBoxStatus] = useState('');
+  const wallet = useSelector(selectWallet);
+  const [claim, {}] = useClaimMutation();
+  useEffect(() => {
+    if (blockchainData) {
+      if (blockchainData.isActive) {
+        switch (data.status) {
+          case 'refund': setBoxStatus('Refund is availible'); break;
+          default: setBoxStatus('Claim is availible'); break;
+        } 
+      } else {
+        switch (data.status) {
+          case 'first claimed': setBoxStatus('Claimed'); break;
+          case 'both claimed': setBoxStatus('Claimed'); break;
+          case 'refund': setBoxStatus('Refunded'); break;
+        }
+      }
+    }
+    
+  }, [blockchainData])
+
   return (
     <div className="box-sended">
         {data && data.type === 'Your' && (
@@ -37,6 +65,10 @@ const BoxInfo: FC<TProps> = ({data}) => {
         <div className="box-sended__item">
             <div className="box-sended__name">Network</div>
             <div className="box-sended__value">{data?.sendNetwork}</div>
+          </div>
+          <div className="box-sended__item">
+            <div className="box-sended__name">Status</div>
+            <div className="box-sended__value">{boxStatus}</div>
           </div>
           <div className="box-sended__item">
             <div className="box-sended__name">Amount</div>
@@ -62,6 +94,18 @@ const BoxInfo: FC<TProps> = ({data}) => {
             {data?.reciever}
           </div>
         </div>
+        {boxStatus && boxStatus === 'Refund is availible' && (
+        <div className="box-sended__item">
+          <button>
+            Refund
+          </button>
+        </div>
+        )}
+        {boxStatus && boxStatus == 'Claim is availible' && data.reciever === wallet.address && (
+             <button onClick={() => {claim({props: data.claimProps, contractNetwork: data.claimProps.claimNetwork})}}>
+             Claim
+           </button>
+        )}
       </div>
       </div>)
 };

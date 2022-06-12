@@ -15,9 +15,8 @@ function Pages() {
       <Route path="/" exact>
         <MainPage />
       </Route>
-      <Route exact path="/orderCreated/:boxId" render={(props) => (
+      <Route path="/orderCreated/:boxId" exact>
         <OrderCreatedPage title="Your order was succesfully created" subtitle="After responding to your offer, you will go to the next page."/>
-      )}>   
       </Route>
       <Route path="/orderSelected/:boxId" exact>
         <OrderPage title="You selected an order" subtitle="Please wait for the partner to deploy first box." timerTitle="Waiting..."/>
@@ -26,7 +25,7 @@ function Pages() {
         <DeployFirstBox title="Trade partner found" subtitle="Please deploy your box first"/>
       </Route>
       <Route path="/waitForRecieverDeploy/:boxId" exact>
-        <SecondBoxWait title="Your box deployed" subtitle="Wait for reciever to deploy his box"/>
+        <SecondBoxWait title="Your box deployed" subtitle="Wait for reciever to deploy his box" statusToUpdate="both deployed" timerTitle="" redirect="firstClaim"/>
       </Route>
       <Route path="/deployReciever/:boxId" exact>
         <DeploySecondBox title="First box deployed" subtitle="Now it's your turn to deploy"/>

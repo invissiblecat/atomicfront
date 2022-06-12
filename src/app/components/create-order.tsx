@@ -13,7 +13,7 @@ type TProps = {
 
 const CreateOrder: FC<TProps> = ({timerTitle, id}) => {
   const wallet = useSelector(selectWallet);
-  const {data} = useGetBoxByIdQuery(id);
+  const {data} = useGetBoxByIdQuery(id, {pollingInterval: 10000});
   const history = useHistory();
 
   useEffect(() => {

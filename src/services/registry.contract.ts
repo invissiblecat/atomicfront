@@ -13,6 +13,24 @@ export type TCreateBox = {
   unlockTimestamp: number;
   offchainId: string;
 }
+
+export type TBox = {
+  id: BigNumber;
+  sender: string;
+  reciever: string;
+  token: string;
+  amount: string;
+  hashSecret: string;
+  unlockTimestamp: number;
+  isActive: boolean;
+}
+
+export type TClaim = {
+  boxId: number;
+  secret: string;
+  offchainId: string;
+}
+
 class RegistryContract {
   contracts: { [key: string]: Contract } = {};
 
@@ -49,6 +67,34 @@ class RegistryContract {
     return contract
       .connect(walletService.signer!)
       .createBox(props.reciever, props.token, props.amount, hashSecret, props.unlockTimestamp, props.offchainId);
+  }
+
+  async claimBox({
+    props,
+    claimNetwork,
+  }: {
+    props: TClaim;
+    claimNetwork: string;
+  }): Promise<ContractTransaction> {
+    await setupNetwork(claimNetwork);
+    await switchNetwork(claimNetwork);
+    const address = this.getRegistryAddress(claimNetwork)
+    const contract = this._getContract(address);
+    return contract
+      .connect(walletService.signer!)
+      .claim(props.boxId, props.secret, props.offchainId)
+  }
+
+  async getBox({
+    boxId,
+    contractNetwork,
+  }: {
+    boxId: number;
+    contractNetwork: string;
+  }): Promise<ContractTransaction> {
+    const address = this.getRegistryAddress(contractNetwork)
+    const contract = this._getContract(address);
+    return contract.getBoxById(boxId);
   }
 
   getRegistryAddress(contractNetwork: string): string {

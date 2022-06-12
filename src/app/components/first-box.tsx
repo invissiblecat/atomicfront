@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useGetBoxByIdQuery, usePatchBoxMutation } from "redux/project.api";
 import { useCreateBoxMutation } from "redux/registry.api";
 import { selectWallet } from "redux/wallet.slice";
-import { TCreateBox } from "services/root.contract";
+import { TCreateBox } from "services/registry.contract";
 import "./first-box.sass";
 import Table from "./table";
 
@@ -47,7 +47,6 @@ const FirstBoxSend: FC<TProps> = ({boxId, statusToUpdate, redirect}) => {
     }
     await createBox({box: {...deployData, offchainId: boxId}, contractNetwork: network});
     await patchBox({id: boxId, body: {secret, unlockTimestamp: +timelock}});
-    console.log(isSuccess)
   }
 
   useEffect(() => {
@@ -59,7 +58,6 @@ const FirstBoxSend: FC<TProps> = ({boxId, statusToUpdate, redirect}) => {
 
   return (
     <div className="first-box">
-      {/* <Table size={4} title="Recipient box" type="create" /> */}
       <div className="first-box__bottom">
         <Table size={4} type="send" box={data} statusToUpdate={statusToUpdate}/>
         {statusToUpdate !== 'both deployed' && (

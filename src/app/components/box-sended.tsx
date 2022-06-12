@@ -3,9 +3,12 @@ import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useGetBoxByIdQuery } from "redux/project.api";
+import { useClaimMutation } from "redux/registry.api";
 import { selectWallet } from "redux/wallet.slice";
+import { TClaim, TCreateBox } from "services/registry.contract";
 import BoxInfo from "./box-info";
 import "./box-sended.sass";
+import { useActions } from "./hooks/use-actions";
 import { checkAddress } from "./utils/utils";
 
 type TProps = {
@@ -15,9 +18,9 @@ type TProps = {
 };
 
 const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
-  const {data} = useGetBoxByIdQuery(id);
   const wallet = useSelector(selectWallet);
-  console.log(wallet.address)
+  const { connect, disconnect } = useActions();
+  const {data} = useGetBoxByIdQuery(id, {pollingInterval: 10000});
   const [yourBox, setYourBox] = useState({  type: "Your",
           id: data?.sendBlockchainId!,
           sendNetwork: data?.sendNetwork!,
@@ -80,21 +83,31 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
   }
 
   useEffect(() => {
-    setBoxes();
-  }, [])
-
-  useEffect(() => {
-    console.log(`/${redirect}/${id}`)
-    if (data && data.status === statusToUpdate) {
-      history.push(`/${redirect}/${id}`);
+    if (!wallet.address) {
+      connect();
     }
-  }, [data?.status]);
+    if (data) {
+      if (data.status === statusToUpdate) {
+        history.push(`/${redirect}/${id}`);
+      } else {
+        setBoxes();
+      }
+    }
+  }, [data]);
   
-  console.log({data})
+  const claimProps: TClaim = {
+    boxId: yourBox.id,
+    secret: data?.secret!,
+    offchainId: id
+  }
   return (
     <>
-   <BoxInfo data={yourBox}></BoxInfo>
-   <BoxInfo data={partnerBox}></BoxInfo>
+    {data && (
+    <>
+   <BoxInfo data={{...yourBox, status: data?.status!, claimProps: {...claimProps, claimNetwork: partnerBox.sendNetwork}}}></BoxInfo>
+   <BoxInfo data={{...partnerBox, status: data?.status!, claimProps: {...claimProps, claimNetwork: partnerBox.sendNetwork}}}></BoxInfo>
+    </> 
+    )}
    </>
   );
 };
