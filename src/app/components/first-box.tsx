@@ -12,6 +12,12 @@ import {
 import { selectWallet } from "redux/wallet.slice";
 import { TCreateBox } from "services/registry.contract";
 import DatePicker from "react-datepicker";
+// import {
+//   DateRangeInput,
+//   DateSingleInput,
+//   Datepicker,
+//   OnDatesChangeProps,
+// } from "@datepicker-react/styled";
 import "./first-box.sass";
 import Table from "./table";
 
@@ -41,6 +47,19 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
     });
   const [approve, {}] = useApproveMutation();
   const [chosenDate, setChosenDate] = useState(new Date());
+  // const [chosenDate, setChosenDate] = useState({
+  //   startDate: null,
+  //   endDate: null,
+  //   focusedInput: new Date(),
+  // });
+
+  // const handleDatesChange = (data: OnDatesChangeProps) => {
+  //   if (!data.focusedInput) {
+  //     setChosenDate({ ...data, focusedInput:new Date() });
+  //   } else {
+  //     setChosenDate(data);
+  //   }
+  // };
 
   const deployBox = async () => {
     let deployData;
@@ -120,9 +139,17 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
                       ></input> */}
                 <DatePicker
                   dateFormat={"dd/MM/yy"}
+                  className="date-picker__calendar"
+                  wrapperClassName="date-picker"
                   selected={chosenDate}
                   onChange={(chosenDate: Date) => setChosenDate(chosenDate)}
                 />
+                {/* <Datepicker
+                  onDatesChange={handleDatesChange}
+                  startDate={state.startDate} // Date or null
+                  endDate={state.endDate} // Date or null
+                  focusedInput={state.focusedInput}
+                /> */}
               </span>
               <span className="first-box__form-token-info">
                 <input

@@ -1,4 +1,5 @@
 import NewOrderForm from "app/components/deploy/deploy.form";
+import FirstBoxSend from "app/components/first-box";
 import Header from "app/components/header";
 import MainTable from "app/components/main.table";
 import { useEffect } from "react";
@@ -36,6 +37,7 @@ function MainPage() {
       <div className="page__form" id="form">
         <NewOrderForm></NewOrderForm>
       </div>
+      <FirstBoxSend boxId={""} statusToUpdate={""} redirect={""} />
     </>
   );
 }
