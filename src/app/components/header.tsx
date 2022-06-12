@@ -18,11 +18,11 @@ const Header: FC<args> = ({ links }) => {
       <a className="header__item" href={`#${links[1]}`}>
         Form
       </a>
-      {wallet.address && (
+      {/* {wallet.address && ( */}
               <a className="header__item">
-              {wallet.address}
+             0xEfCbF2D32AEe89039ba337D967566A5537DbafE9
             </a>
-      )}
+      {/* )} */}
     </div>
   );
 };

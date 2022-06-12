@@ -7,11 +7,11 @@ import { selectWallet } from "redux/wallet.slice";
 import { useActions } from "./components/hooks/use-actions";
 
 function App() {
-  const { connect, disconnect } = useActions();
+  // const { connect, disconnect } = useActions();
   
-  useEffect(() => {
-    connect()
-  }, [])
+  // useEffect(() => {
+  //   connect()
+  // }, [])
   return (
     <div className="app">
       <Router>
