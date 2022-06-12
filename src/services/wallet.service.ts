@@ -5,6 +5,7 @@ import Web3Modal from "web3modal";
 import { USER_LOGIN_SIGNATURE_KEY } from "../constants";
 import { setupNetwork } from "../lib/chains";
 import apiService from "./api.service";
+import tokenService, { ONE_HOUR } from "./token.service";
 
 type THandler<T> = (arg0: T) => Promise<void>;
 
@@ -39,6 +40,37 @@ class WalletService {
     this.provider = new Web3Provider(this.web3ModalProvider);
     this.signer = this.provider.getSigner();
     this.network = await this.provider.getNetwork();
+    this.setupHandlers();
+    const setupResult = await setupNetwork();
+
+    if (!setupResult) {
+      this.handleDisconnect({});
+    }
+
+    if (tokenService.tokens) {
+      const timestamp = Date.now();
+
+      if (tokenService.tokens.accessExpiresIn - timestamp >= ONE_HOUR) {
+        return {
+          provider: this.provider,
+          web3ModalProvider: this.web3ModalProvider,
+          signer: this.signer,
+          network: this.network,
+        };
+      }
+
+      try {
+        await tokenService.updateToken();
+        return {
+          provider: this.provider,
+          web3ModalProvider: this.web3ModalProvider,
+          signer: this.signer,
+          network: this.network,
+        };
+      } catch (err: any) {
+        tokenService.removeToken();
+      }
+    }
 
     return this.signLoginMessage(this.signer);
   }
@@ -56,6 +88,7 @@ class WalletService {
   async signLoginMessage(signer: JsonRpcSigner) {
     try {
       this.signature = await signer.signMessage(USER_LOGIN_SIGNATURE_KEY);
+      await apiService.login(this.signature);
       return {
         provider: this.provider,
         web3ModalProvider: this.web3ModalProvider,

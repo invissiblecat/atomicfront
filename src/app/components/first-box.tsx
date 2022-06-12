@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { setupNetwork, switchNetwork } from "lib/utilities";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -32,19 +32,19 @@ const FirstBoxSend: FC<TProps> = ({boxId, statusToUpdate, redirect}) => {
   const deployBox = async () => {
     let deployData;
     let network;
+    let hashSecret;
     if (statusToUpdate === 'both deployed') {
       console.log('recieve')
       deployData= {
         reciever: data?.sender!,
         token: data?.recieveToken!,
         amount: data?.recieveAmount!,
-        secret: data?.secret!,
+        secret: data?.hashSecret!,
         unlockTimestamp: +data?.unlockTimestamp! + 3600
       }
       await switchNetwork(data?.recieveNetwork!);
       network = data?.recieveNetwork!
       refetchAllowanceRecieve();
-      console.log(allowanceRecieve)
       if (!allowanceRecieve || allowanceRecieve.lt(BigNumber.from(deployData.amount))) await approve(network);
     } else {
       console.log('send')
@@ -56,12 +56,17 @@ const FirstBoxSend: FC<TProps> = ({boxId, statusToUpdate, redirect}) => {
         unlockTimestamp: +timelock
       }
       await switchNetwork(data?.sendNetwork!);
-      network=data?.sendNetwork!
+      hashSecret = ethers.utils.id(secret);
+      network=data?.sendNetwork!;
       refetchAllowanceSend()
       if (!allowanceSend || allowanceSend.lt(BigNumber.from(deployData.amount))) await approve(network);
     }
     await createBox({box: {...deployData, offchainId: boxId}, contractNetwork: network});
-    await patchBox({id: boxId, body: {secret: secret, unlockTimestamp: +timelock}});
+    if (hashSecret) {
+      await patchBox({id: boxId, body: {secret: secret, hashSecret, unlockTimestamp: +timelock}});
+    } else {
+      await patchBox({id: boxId, body: {unlockTimestamp: +timelock}});
+    }
   }
 
   useEffect(() => {

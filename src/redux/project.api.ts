@@ -1,10 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { TProjectResponseData, TProjectRequestData } from "./types";
+import TokenService from "../services/token.service";
 
 export const projectApi = createApi({
     reducerPath: 'projectApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.REACT_APP_API, 
+        prepareHeaders: (headers) => {
+          if (TokenService.tokens) {
+            headers.set(
+              "authorization",
+              `Bearer ${TokenService.tokens.accessToken}`
+            );
+          }
+          return headers;
+        },
     }),
     endpoints: (builder) => ({
         createBox: builder.mutation<TProjectResponseData, TProjectRequestData>({

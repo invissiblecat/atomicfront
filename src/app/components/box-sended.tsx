@@ -81,7 +81,7 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         default: break;
     }
   }
-// console.log(2)
+console.log(2)
   useEffect(() => {
     if (!wallet.address) {
       connect();
@@ -94,9 +94,9 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
       }
     }
   }, [data]);
-  // console.log({data})
+  console.log({data})
   const claimProps: TClaim = {
-    boxId: yourBox.id,
+    boxId: partnerBox.id,
     secret: data?.secret!,
     offchainId: id
   }

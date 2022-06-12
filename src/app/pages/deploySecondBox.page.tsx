@@ -24,7 +24,7 @@ const DeploySecondBox: FC<TProps> = ({ title, subtitle }) => {
       <div className="order-page__subtitle">
         {subtitle}
       </div>
-      <FirstBoxSend boxId={boxId} statusToUpdate='both deployed' redirect="waitFirstClaim"/>
+      <FirstBoxSend boxId={boxId} statusToUpdate='both deployed' redirect="claim"/>
       {/* <BothBoxSend /> */}
       {/* <BoxSended id={boxId}/> */}
       {/* <EndingStage /> */}

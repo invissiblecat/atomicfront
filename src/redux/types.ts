@@ -8,6 +8,7 @@ export type TProjectRequestData = {
   recieveAmount: string;
   unlockTimestamp?: number;
   secret?: string;
+  hashSecret?: string;
 }
 
 export type TProjectResponseData = TProjectRequestData & {
