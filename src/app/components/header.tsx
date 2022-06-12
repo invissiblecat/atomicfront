@@ -1,11 +1,7 @@
-import { FC, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { ScrollLink } from "react-scroll";
+import { FC } from "react";
+import { useSelector } from "react-redux";
 import { selectWallet } from "redux/wallet.slice";
 import "./header.sass";
-import { useActions } from "./hooks/use-actions";
-import { useAuth } from "./hooks/use-auth";
 
 type args = {
   links: string[];
@@ -13,7 +9,6 @@ type args = {
 
 const Header: FC<args> = ({ links }) => {
   const wallet = useSelector(selectWallet);
-  // console.log(wallet.address)
 
   return (
     <div className="header">

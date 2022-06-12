@@ -1,3 +1,4 @@
+import { setupNetwork, switchNetwork } from "lib/utilities";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -17,7 +18,6 @@ type TProps = {
 const FirstBoxSend: FC<TProps> = ({boxId, statusToUpdate, redirect}) => {
   const {data} = useGetBoxByIdQuery(boxId, {pollingInterval: 10000});
   const [patchBox, {}] = usePatchBoxMutation()
-  const wallet = useSelector(selectWallet);
   const [createBox, {isSuccess}] = useCreateBoxMutation();
   const [secret, setSecret] = useState('');
   const [timelock, setTimelock] = useState('');
@@ -52,9 +52,10 @@ const FirstBoxSend: FC<TProps> = ({boxId, statusToUpdate, redirect}) => {
 
   useEffect(() => {
     if (data && data.status === statusToUpdate) {
+      console.log('redirect')
       history.push(`/${redirect}/${boxId}`)
     }
-  }, [data?.status]);
+  }, [data]);
 
   return (
     <div className="first-box">

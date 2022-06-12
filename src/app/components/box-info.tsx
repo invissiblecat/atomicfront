@@ -20,18 +20,19 @@ type TProps = {
 };
 
 const BoxInfo: FC<TProps> = ({data}) => {
-  console.log(data)
   return (
     <div className="box-sended">
-      <div className="box-sended__state-success">
-        <div className="box-sended__text">
-          <span className="box-sended__text-special">{data.type} box Id</span>
-          (Will be displayed to your partner)
+        {data && data.type === 'Your' && (
+          <div className="box-sended__text">
+            <div className="box-sended__state-success">
+            <span className="box-sended__text-special">{data.type} box Id</span>
+            (Will be displayed to your partner)
+          <div className="box-sended__text">{data!.id}</div>
+          </div>
         </div>
-        <div className="box-sended__text">{data!.id}</div>
-      </div>
+          )}
       <div className="box-sended__content">
-          <span className="box-sended__text-special">Your box info</span>
+          <span className="box-sended__text-special">{data.type} box info</span>
         <div className="box-sended__row">
         <div className="box-sended__item">
             <div className="box-sended__name">Network</div>

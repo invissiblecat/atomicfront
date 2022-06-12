@@ -104,6 +104,7 @@ export const BSC_SCAN_URLS = {
 
 export const setupNetwork = async (networkName: string) => {
   const provider = window.ethereum;
+  console.log({networkName})
   const chainId = getChainId(networkName);
   if (provider) {
         try {

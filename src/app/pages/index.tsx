@@ -1,8 +1,4 @@
-import { useActions } from "app/components/hooks/use-actions";
-import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import { selectWallet } from "redux/wallet.slice";
-import { web3Modal } from "services/wallet.service";
 import ClaimPage from "./claim.page";
 import DeployFirstBox from "./deployFirstBox.page";
 import DeploySecondBox from "./deploySecondBox.page";

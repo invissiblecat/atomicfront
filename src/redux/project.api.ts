@@ -23,8 +23,11 @@ export const projectApi = createApi({
             `/boxes?filter=${JSON.stringify(where)}`,
         }),
         getBoxById: builder.query<TProjectResponseData, string>({
-          query: (id) =>
-            `/boxes/${id}`,
+          query: (id) => ({
+            url: `/boxes/${id}`,
+            method: 'GET'
+          }
+          )
         }),
         patchBox: builder.mutation<TProjectResponseData, {id: string, body: Partial<TProjectResponseData>}>({
           query: ({ id, body}) => ({

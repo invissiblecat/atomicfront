@@ -7,7 +7,6 @@ import { selectWallet } from "redux/wallet.slice";
 import { useActions } from "./components/hooks/use-actions";
 
 function App() {
-  const wallet = useSelector(selectWallet);
   const { connect, disconnect } = useActions();
   
   useEffect(() => {

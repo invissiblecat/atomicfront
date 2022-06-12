@@ -3,6 +3,7 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
+import {setupNetwork, switchNetwork } from "lib/utilities";
 import { pick } from "lodash";
 import registryContract, { TCreateBox } from "services/root.contract";
 
