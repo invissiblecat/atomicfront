@@ -25,7 +25,6 @@ const OrderCreatedPage: FC<TProps> = ({ title, subtitle }) => {
   });
 
   useEffect(() => {
-    console.log(box)
     if (box && box.reciever && box.reciever !== '') {
       history.push(`/deploySender/${boxId}`)
     }

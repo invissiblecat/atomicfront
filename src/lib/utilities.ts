@@ -143,6 +143,14 @@ export const switchNetwork = async (networkName: string) => {
   } catch (switchErr: any) {
     console.log(switchErr)
 }
+
+}
+export const getProvider = (contractNetwork: string) =>  {
+  switch(contractNetwork){
+    case 'Ethereum': return process.env.REACT_APP_AVALANCHE!; break;
+    case 'Avalanche': return process.env.REACT_APP_ETHEREUM!; break;
+    default: return ''
+  }
 }
 
 

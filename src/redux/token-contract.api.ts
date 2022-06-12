@@ -12,31 +12,32 @@ export const tokenContractApi = createApi({
     baseUrl: "/",
   }),
   endpoints: (builder) => ({
-    getBalance: builder.query<BigNumber, { account: string; address: string }>({
-      async queryFn({ account, address }) {
-        try {
-          const data = await ERC20Contract.balanceOf({
-            address,
-            account,
-          });
-          return { data };
-        } catch (error) {
-          console.error("getBalance error:", error);
-          return { error: error as FetchBaseQueryError };
-        }
-      },
-    }),
+    // getBalance: builder.query<BigNumber, { account: string; address: string }>({
+    //   async queryFn({ account, address }) {
+    //     try {
+    //       const data = await ERC20Contract.balanceOf({
+    //         address,
+    //         account,
+    //       });
+    //       return { data };
+    //     } catch (error) {
+    //       console.error("getBalance error:", error);
+    //       return { error: error as FetchBaseQueryError };
+    //     }
+    //   },
+    // }),
 
     getAllowance: builder.query<
       BigNumber,
-      { owner: string; stableAddress: string }
+      { owner: string; contractNetwork: string }
     >({
-      async queryFn({ owner, stableAddress }) {
+      async queryFn({ owner, contractNetwork }) {
+        const spender = contractNetwork === 'Avalanche' ? process.env.REACT_APP_AVALANCHE_REGISTRY! : process.env.REACT_APP_ETHEREUM_REGISTRY!
         try {
           const data = await ERC20Contract.allowance({
-            address: stableAddress,
+            contractNetwork,
             owner,
-            spender: process.env.REACT_APP_ROOT!,
+            spender,
           });
           return { data };
         } catch (error) {
@@ -47,13 +48,13 @@ export const tokenContractApi = createApi({
     }),
 
     approve: builder.mutation<null, string>({
-      async queryFn(stableAddress) {
+      async queryFn(contractNetwork) {
         const amount = BigNumber.from(2).pow(256).sub(1);
-
+        const spender = contractNetwork === 'Avalanche' ? process.env.REACT_APP_AVALANCHE_REGISTRY! : process.env.REACT_APP_ETHEREUM_REGISTRY!
         try {
           const tx = await ERC20Contract.approve({
-            address: stableAddress,
-            spender: process.env.REACT_APP_ROOT!,
+            contractNetwork,
+            spender,
             amount,
           });
           await tx.wait();
@@ -67,5 +68,5 @@ export const tokenContractApi = createApi({
   }),
 });
 
-export const { useGetBalanceQuery, useGetAllowanceQuery, useApproveMutation } =
+export const { useGetAllowanceQuery, useApproveMutation } =
   tokenContractApi;

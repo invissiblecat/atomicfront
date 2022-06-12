@@ -1,5 +1,5 @@
-import { BigNumber, Contract, ContractTransaction, ethers } from "ethers";
-import { setupNetwork, switchNetwork } from "lib/utilities";
+import { BigNumber, Contract, ContractTransaction, ethers, Signer } from "ethers";
+import { getProvider, setupNetwork, switchNetwork } from "lib/utilities";
 import RegistryArtifacts from "../abi/Registry.json";
 import walletService from "./wallet.service";
 
@@ -34,19 +34,19 @@ export type TClaim = {
 class RegistryContract {
   contracts: { [key: string]: Contract } = {};
 
-  _getContract(address: string) {
+  _getContract(address: string, contractNetwork: string) {
     // if (!Object.keys(this.contracts).includes(address)) {
-      console.log({address})
-    return this._registerContract(address);
+      // console.log({address})
+    return this._registerContract(address, contractNetwork);
     // }x
     // return this.contracts[address];
   }
 
-  _registerContract(address: string) {
+  _registerContract(address: string, contractNetwork: string) {
     const contract = new Contract(
       address,
       RegistryArtifacts.abi,
-      walletService.provider
+      new ethers.providers.JsonRpcProvider(getProvider(contractNetwork))
     );
     this.contracts[address] = contract;
     return contract;
@@ -63,7 +63,7 @@ class RegistryContract {
     await switchNetwork(contractNetwork);
     const address = this.getRegistryAddress(contractNetwork)
     const hashSecret = ethers.utils.id(props.secret);
-    const contract = this._getContract(address);
+    const contract = this._getContract(address, contractNetwork);
     return contract
       .connect(walletService.signer!)
       .createBox(props.reciever, props.token, props.amount, hashSecret, props.unlockTimestamp, props.offchainId);
@@ -79,7 +79,7 @@ class RegistryContract {
     await setupNetwork(claimNetwork);
     await switchNetwork(claimNetwork);
     const address = this.getRegistryAddress(claimNetwork)
-    const contract = this._getContract(address);
+    const contract = this._getContract(address, claimNetwork);
     return contract
       .connect(walletService.signer!)
       .claim(props.boxId, props.secret, props.offchainId)
@@ -93,14 +93,14 @@ class RegistryContract {
     contractNetwork: string;
   }): Promise<ContractTransaction> {
     const address = this.getRegistryAddress(contractNetwork)
-    const contract = this._getContract(address);
-    return contract.getBoxById(boxId);
+    const contract = this._getContract(address, contractNetwork);
+    return contract.connect(new ethers.providers.JsonRpcProvider(getProvider(contractNetwork))).getBoxById(boxId);
   }
 
   getRegistryAddress(contractNetwork: string): string {
     switch(contractNetwork){
-      case 'Ethereum': return process.env.REACT_APP_ETHEREUM_REGISTRY!;
-      case 'Avalanche': return process.env.REACT_APP_AVALANCHE_REGISTRY!;
+      case 'Ethereum': return process.env.REACT_APP_ETHEREUM_REGISTRY!; break;
+      case 'Avalanche': return process.env.REACT_APP_AVALANCHE_REGISTRY!; break;
       default: return ''
     }
   }

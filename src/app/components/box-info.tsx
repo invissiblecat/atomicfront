@@ -26,28 +26,36 @@ type TProps = {
 };
 
 const BoxInfo: FC<TProps> = ({data}) => {
-  const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
+  // const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
   const [boxStatus, setBoxStatus] = useState('');
   const wallet = useSelector(selectWallet);
   const [claim, {}] = useClaimMutation();
+
   useEffect(() => {
-    if (blockchainData) {
-      if (blockchainData.isActive) {
-        switch (data.status) {
-          case 'refund': setBoxStatus('Refund is availible'); break;
-          default: setBoxStatus('Claim is availible'); break;
-        } 
-      } else {
-        switch (data.status) {
-          case 'first claimed': setBoxStatus('Claimed'); break;
-          case 'both claimed': setBoxStatus('Claimed'); break;
-          case 'refund': setBoxStatus('Refunded'); break;
-        }
+    if (data) {
+      if(data.status !== 'refund') {
+        setBoxStatus('Claim is availible')
       }
     }
+  })
+  // useEffect(() => {
+  //   if (blockchainData) {
+  //     if (blockchainData.isActive) {
+  //       switch (data.status) {
+  //         case 'refund': setBoxStatus('Refund is availible'); break;
+  //         default: setBoxStatus('Claim is availible'); break;
+  //       } 
+  //     } else {
+  //       switch (data.status) {
+  //         case 'first claimed': setBoxStatus('Claimed'); break;
+  //         case 'both claimed': setBoxStatus('Claimed'); break;
+  //         case 'refund': setBoxStatus('Refunded'); break;
+  //       }
+  //     }
+  //   }
     
-  }, [blockchainData])
-
+  // }, [blockchainData])
+  console.log(1)
   return (
     <div className="box-sended">
         {data && data.type === 'Your' && (

@@ -1,70 +1,63 @@
-import { BigNumber, Contract, ContractTransaction } from "ethers";
+import { BigNumber, Contract, ContractTransaction, ethers } from "ethers";
+import { getProvider, switchNetwork } from "lib/utilities";
 import ERC20Artifact from "../abi/ERC20.json";
 import walletService from "./wallet.service";
 
 class ERC20Contract {
   contracts: { [key: string]: Contract } = {};
 
-  _getContract(address: string) {
-    if (!Object.keys(this.contracts).includes(address)) {
-      return this._registerContract(address);
-    }
-    if (!this.contracts[address].provider) {
-      return this._registerContract(address);
-    }
-    return this.contracts[address];
+  _getContract(address: string, contractNetwork: string) {
+    // if (!Object.keys(this.contracts).includes(address)) {
+      // console.log({address})
+    return this._registerContract(address, contractNetwork);
+    // }x
+    // return this.contracts[address];
   }
 
-  _registerContract(address: string) {
+  _registerContract(address: string, contractNetwork: string) {
     const contract = new Contract(
       address,
       ERC20Artifact.abi,
-      walletService.provider
+      new ethers.providers.JsonRpcProvider(getProvider(contractNetwork))
     );
     this.contracts[address] = contract;
     return contract;
   }
 
-  symbol(address: string): string {
-    const contract = this._getContract(address);
-    return contract.symbol();
-  }
-
-  balanceOf({
-    address,
-    account,
-  }: {
-    address: string;
-    account: string;
-  }): Promise<BigNumber> {
-    const contract = this._getContract(address);
-    return contract.balanceOf(account);
-  }
-
-  allowance({
-    address,
+  async allowance({
+    contractNetwork,
     owner,
     spender,
   }: {
-    address: string;
+    contractNetwork: string;
     owner: string;
     spender: string;
   }): Promise<BigNumber> {
-    const contract = this._getContract(address);
+    const address = this.getTokenAddress(contractNetwork)
+    const contract = this._getContract(address, contractNetwork);
     return contract.allowance(owner, spender);
   }
 
-  approve({
-    address,
+  async approve({
+    contractNetwork,
     spender,
     amount,
   }: {
-    address: string;
+    contractNetwork: string;
     spender: string;
     amount: BigNumber;
   }): Promise<ContractTransaction> {
-    const contract = this._getContract(address);
+    const address = this.getTokenAddress(contractNetwork)
+    const contract = this._getContract(address, contractNetwork);
     return contract.connect(walletService.signer!).approve(spender, amount);
+  }
+
+  getTokenAddress(contractNetwork: string): string {
+    switch(contractNetwork){
+      case 'Ethereum': return process.env.REACT_APP_TETH!; break;
+      case 'Avalanche': return process.env.REACT_APP_TAVAX!; break;
+      default: return ''
+    }
   }
 }
 

@@ -47,29 +47,15 @@ export const registryApi = createApi({
         }
       },
     }),
-    getBox: builder.query<
-    TBox, 
-    {boxId: number, contractNetwork: string}
-    >({
-      async queryFn({boxId, contractNetwork}): Promise<any> {
+    getBox: builder.query<any, {boxId: number, contractNetwork: string}>({
+      async queryFn({boxId, contractNetwork}) {
         try {
-          const res = await registryContract.getBox({boxId, contractNetwork});
-          return {
-            data: pick(
-              res,
-              "id",
-              "sender",
-              "reciever",
-              "token",
-              "amount",
-              "hashSecret",
-              "unlockTimestamp",
-              "isActive"
-            )
-            }
+          const res = await registryContract.getBox({ boxId, contractNetwork });
+          console.log({res})
+          return res;
         } catch (error) {
           console.error("getBox err: ", error);
-          return error;
+          return { error: error as FetchBaseQueryError };
         }
       },
     }),
