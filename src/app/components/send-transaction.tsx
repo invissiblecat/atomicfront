@@ -1,15 +1,16 @@
 import "./send-transaction.sass";
+import StateLoading from "./state-loading.component";
 import Table from "./table";
 
 const SendTransaction = () => {
   return (
     <div className="send-transaction">
-      <div className="send-transaction__state-loading">
-        <div className="send-transaction__description-text">
-          Looking for a partner...
-        </div>
-        <div className="send-transaction__time">15:23:16</div>
-      </div>
+      <StateLoading
+        timerTitle={"Waiting..."}
+        // isLoading={false}
+        isLoading={true}
+        time={"15:23:16"}
+      />
       <Table size={4} title="" type="send" />
       <div className="send-transaction__form">
         <div className="send-transaction__form-inner">
