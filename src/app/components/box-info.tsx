@@ -1,4 +1,5 @@
 import { BigNumber, ethers } from "ethers";
+import { startCase } from "lodash";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -33,28 +34,16 @@ const BoxInfo: FC<TProps> = ({data}) => {
 
   useEffect(() => {
     if (data) {
-      if(data.status !== 'refund') {
-        setBoxStatus('Claim is availible')
-      }
+      if(data.status === 'both deployed' || data.status === 'sender claimed' || data.status === 'reciever claimed') {
+        if (data.status === 'sender claimed' && wallet.address === data.reciever && data.type === 'Your') setBoxStatus('Sender claimed')
+        else if (data.status === 'reciever claimed' && wallet.address === data.sender && data.type === 'Your') setBoxStatus('Reciever claimed')
+        else setBoxStatus('Claim is availible')
+      } else if (data.status === 'first deployed') {
+        setBoxStatus('Wait for both boxes deploy')
+      } 
     }
   })
-  // useEffect(() => {
-  //   if (blockchainData) {
-  //     if (blockchainData.isActive) {
-  //       switch (data.status) {
-  //         case 'refund': setBoxStatus('Refund is availible'); break;
-  //         default: setBoxStatus('Claim is availible'); break;
-  //       } 
-  //     } else {
-  //       switch (data.status) {
-  //         case 'first claimed': setBoxStatus('Claimed'); break;
-  //         case 'both claimed': setBoxStatus('Claimed'); break;
-  //         case 'refund': setBoxStatus('Refunded'); break;
-  //       }
-  //     }
-  //   }
-    
-  // }, [blockchainData])
+
   console.log(1)
   return (
     <div className="box-sended">
@@ -87,7 +76,7 @@ const BoxInfo: FC<TProps> = ({data}) => {
           </div>
           <div className="box-sended__item">
             <div className="box-sended__name">Timelock</div>
-            <div className="box-sended__value">{data?.unlockTimestamp}</div>
+            <div className="box-sended__value">{new Date(data?.unlockTimestamp).toLocaleString()}</div>
           </div>
         </div>
         <div className="box-sended__item">
@@ -109,8 +98,8 @@ const BoxInfo: FC<TProps> = ({data}) => {
           </button>
         </div>
         )}
-        {boxStatus && boxStatus == 'Claim is availible' && data.reciever === wallet.address && (
-             <button onClick={() => {claim({props: data.claimProps, contractNetwork: data.claimProps.claimNetwork})}}>
+        {boxStatus && boxStatus == 'Claim is availible' && wallet.address === data.reciever && (
+             <button className="box-sended__button" onClick={() => {claim({props: data.claimProps, contractNetwork: data.claimProps.claimNetwork})}}>
              Claim
            </button>
         )}

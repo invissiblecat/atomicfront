@@ -1,3 +1,4 @@
+import { connect, disconnect } from "redux/wallet.slice";
 import getSupportedChains from "./chains";
 import { IChainData } from "./types";
 
@@ -138,12 +139,10 @@ export const switchNetwork = async (networkName: string) => {
   try {
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${chainId.toString(16)}`,     
-                chainName: NETWORK_NAMES[chainId],
-                nativeCurrency: NATIVE_CURRENCY[chainId],
-                rpcUrls: NODES[chainId],
-                blockExplorerUrls: BSC_SCAN_URLS[chainId] }],
+      params: [{ chainId: `0x${chainId.toString(16)}`}],
     });
+    disconnect();
+    connect();
   } catch (switchErr: any) {
     console.log(switchErr)
 }

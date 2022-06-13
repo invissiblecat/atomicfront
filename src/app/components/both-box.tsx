@@ -15,9 +15,9 @@ const BothBoxSend: FC<TProps> = ({timerTitle, id, statusToUpdate, redirect}) => 
   const {data} = useGetBoxByIdQuery(id);
   
   return (
-    <>
+    <span className="both-box">
      <BoxSended id={id} statusToUpdate={statusToUpdate} redirect={redirect}></BoxSended>
-    </>
+    </span>
   );
 };
 

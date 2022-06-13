@@ -66,7 +66,7 @@ class RegistryContract {
     const contract = this._getContract(address, contractNetwork);
     return contract
       .connect(walletService.signer!)
-      .createBox(props.reciever, props.token, props.amount, hashSecret, props.unlockTimestamp / 1000, props.offchainId);
+      .createBox(props.reciever, props.token, props.amount, hashSecret, Math.ceil(props.unlockTimestamp / 1000), props.offchainId);
   }
 
   async claimBox({
@@ -76,7 +76,7 @@ class RegistryContract {
     props: TClaim;
     claimNetwork: string;
   }): Promise<ContractTransaction> {
-    await setupNetwork(claimNetwork);
+    // await setupNetwork(claimNetwork);
     await switchNetwork(claimNetwork);
     const address = this.getRegistryAddress(claimNetwork)
     const contract = this._getContract(address, claimNetwork);
