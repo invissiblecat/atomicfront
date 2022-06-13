@@ -35,20 +35,21 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
   const [timelock, setTimelock] = useState("");
   const wallet = useSelector(selectWallet);
   const history = useHistory();
-  const { data: allowanceSend, refetch: refetchAllowanceSend } =
-    useGetAllowanceQuery(
-      { owner: wallet.address, contractNetwork: data?.sendNetwork! },
-      { skip: !data || data.status === "both deployed" }
-    );
-  const { data: allowanceRecieve, refetch: refetchAllowanceRecieve } =
-    useGetAllowanceQuery({
-      owner: wallet.address,
-      contractNetwork: data?.recieveNetwork!,
-    });
+  // const { data: allowanceSend, refetch: refetchAllowanceSend } =
+  //   useGetAllowanceQuery(
+  //     { owner: wallet.address, contractNetwork: data?.sendNetwork! },
+  //     { skip: !data || data.status === "both deployed" }
+  //   );
+  // const { data: allowanceRecieve, refetch: refetchAllowanceRecieve } =
+  //   useGetAllowanceQuery({
+  //     owner: wallet.address,
+  //     contractNetwork: data?.recieveNetwork!,
+  //   });
   const [approve, {}] = useApproveMutation();
   const [buttonTitle, setButtonTitle] = useState('Deploy box');
   const [isDisabled, setDisabled] = useState(false);
 
+  console.log(data?.unlockTimestamp)
   const deployBox = async () => {
     setButtonTitle('Loading...')
     setDisabled(true);
@@ -65,27 +66,27 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
       };
       await switchNetwork(data?.recieveNetwork!);
       network = data?.recieveNetwork!;
-      refetchAllowanceRecieve();
-      if (
-        !allowanceRecieve ||
-        allowanceRecieve.lt(BigNumber.from(deployData.amount))
-      )
-        await approve(network);
+      // refetchAllowanceRecieve();
+      // if (
+      //   !allowanceRecieve ||
+      //   allowanceRecieve.lt(BigNumber.from(deployData.amount))
+      // )
+        // await approve(network);
     } else {
-      setTimelock(Date.now().toString() + 1000 * 60 * 60 * 2)
+      setTimelock((Date.now() + 1000 * 60 * 60 * 2).toString())
       deployData = {
         reciever: data?.reciever!,
         token: data?.sendToken!,
         amount: data?.sendAmount!,
         secret: secret,
-        unlockTimestamp: +timelock,
+        unlockTimestamp: +timelock
       };
       await switchNetwork(data?.sendNetwork!);
       hashSecret = ethers.utils.id(secret);
       network = data?.sendNetwork!;
-      refetchAllowanceSend();
-      if (!allowanceSend || allowanceSend.lt(BigNumber.from(deployData.amount)))
-        await approve(network);
+      // refetchAllowanceSend();
+      // if (!allowanceSend || allowanceSend.lt(BigNumber.from(deployData.amount)))
+      //   await approve(network);
     }
     await createBox({
       box: { ...deployData, offchainId: boxId },
@@ -97,7 +98,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
         body: { secret: secret, hashSecret, unlockTimestamp: +timelock },
       });
     } else {
-      await patchBox({ id: boxId, body: { unlockTimestamp: +timelock } });
+      await patchBox({ id: boxId, body: { unlockTimestamp: data?.unlockTimestamp! - 1000 * 60 * 60 * 1} });
     }
     setButtonTitle('Box deployed. Wait for redirect...')
   };

@@ -21,11 +21,11 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
   const wallet = useSelector(selectWallet);
   const { connect, disconnect } = useActions();
   const {data} = useGetBoxByIdQuery(id, {pollingInterval: 10000});
-  const {data: sendBlockchainData} = useGetBoxQuery({boxId: data?.sendBlockchainId!, contractNetwork: data?.sendNetwork!}, {pollingInterval: 30000});
-  const {data: recieveBlockchainData} = useGetBoxQuery({boxId: data?.recieveBlockchainId!, contractNetwork: data?.recieveNetwork!}, {pollingInterval: 30000});
+  // const {data: sendBlockchainData} = useGetBoxQuery({boxId: data?.sendBlockchainId!, contractNetwork: data?.sendNetwork!}, {pollingInterval: 30000});
+  // const {data: recieveBlockchainData} = useGetBoxQuery({boxId: data?.recieveBlockchainId!, contractNetwork: data?.recieveNetwork!}, {pollingInterval: 30000});
 
-  console.log({sendBlockchainData})
-  console.log({recieveBlockchainData})
+  // console.log({sendBlockchainData})
+  // console.log({recieveBlockchainData})
   const [yourBox, setYourBox] = useState({  type: "Your",
           id: data?.sendBlockchainId!,
           sendNetwork: data?.sendNetwork!,
@@ -39,7 +39,7 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         sendNetwork: data?.recieveNetwork!,
         sendAmount: data?.recieveAmount!,
         sendToken: data?.recieveToken!,
-        unlockTimestamp: +data?.unlockTimestamp! + 3600,
+        unlockTimestamp: +data?.unlockTimestamp! - 1000 * 60 * 60 * 1,
         sender: data?.reciever!,
         reciever: data?.sender!});
   const history = useHistory();
@@ -61,7 +61,7 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         sendNetwork: data?.recieveNetwork!,
         sendAmount: data?.recieveAmount!,
         sendToken: data?.recieveToken!,
-        unlockTimestamp: +data?.unlockTimestamp! + 3600,
+        unlockTimestamp: +data?.unlockTimestamp! - 1000 * 60 * 60 * 1,
         sender: data?.reciever!,
         reciever: data?.sender!}); break;
       case "reciever": 
@@ -70,7 +70,7 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
           sendNetwork: data?.recieveNetwork!,
           sendAmount: data?.recieveAmount!,
           sendToken: data?.recieveToken!,
-          unlockTimestamp: +data?.unlockTimestamp! + 3600,
+          unlockTimestamp: +data?.unlockTimestamp! - 1000 * 60 * 60 * 1,
           sender: data?.reciever!,
           reciever: data?.sender!});
         setPartnerBox({  type: "Partner",
@@ -85,19 +85,19 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         default: break;
     }
   }
-// console.log(2)
-  // useEffect(() => {
-  //   if (!wallet.address) {
-  //     connect();
-  //   }
-  //   if (data) {
-  //     if (data.status === statusToUpdate) {
-  //       history.push(`/${redirect}/${id}`);
-  //     } else {
-  //       setBoxes();
-  //     }
-  //   }
-  // }, [data]);
+console.log(2)
+  useEffect(() => {
+    if (!wallet.address) {
+      connect();
+    }
+    if (data) {
+      // if (data.status === statusToUpdate) {
+      //   history.push(`/${redirect}/${id}`);
+      // } else {
+        setBoxes();
+      // }
+    }
+  }, [data]);
   console.log({data})
   const claimProps: TClaim = {
     boxId: partnerBox.id,
@@ -105,14 +105,14 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
     offchainId: id
   }
   return (
-    <>
+    <span className="box-sended__wrapper">
     {data && (
     <>
    <BoxInfo data={{...yourBox, status: data?.status!, claimProps: {...claimProps, claimNetwork: partnerBox.sendNetwork}}}></BoxInfo>
    <BoxInfo data={{...partnerBox, status: data?.status!, claimProps: {...claimProps, claimNetwork: partnerBox.sendNetwork}}}></BoxInfo>
     </> 
     )}
-   </>
+   </span>
   );
 };
 
