@@ -1,36 +1,5 @@
 import { connect, disconnect } from "redux/wallet.slice";
-import getSupportedChains from "./chains";
 import { IChainData } from "./types";
-
-export function getChainData(chainId?: number): IChainData | Error | undefined {
-  if (!chainId) {
-    return;
-  }
-  const chains = getSupportedChains();
-  const chainData = chains.filter(
-    (chain: any) => chain.chain_id === chainId
-  )[0];
-  if (!chainData) {
-    return new Error("ChainId missing or not supported");
-  }
-
-  const API_KEY = "460f40a260564ac4a4f4b3fffb032dad";
-
-  if (
-    chainData.rpc_url.includes("infura.io") &&
-    chainData.rpc_url.includes("%API_KEY%") &&
-    API_KEY
-  ) {
-    const rpcUrl = chainData.rpc_url.replace("%API_KEY%", API_KEY);
-
-    return {
-      ...chainData,
-      rpc_url: rpcUrl,
-    };
-  }
-
-  return chainData;
-}
 
 export function ellipseAddress(address = "", width = 4): string {
   if (!address) {
@@ -62,13 +31,13 @@ export const log = (...args: any) => {
 };
 
 export enum ChainId {
-  AVALANCHE = 43113,
-  ETHEREUM = 4,
+  AVALANCHE = +process.env.REACT_APP_AVALANCHE_CHAINID!,
+  ETHEREUM = +process.env.REACT_APP_ETHEREUM_CHAINID!
 }
-const getChainId = (networkName: string) => {
+export const getChainId = (networkName: string) => {
   switch (networkName) {
-    case 'Ethereum': return +process.env.REACT_APP_ETHEREUM_CHAINID! as ChainId
-    case 'Avalanche': return +process.env.REACT_APP_AVALANCHE_CHAINID! as ChainId
+    case 'Ethereum': return  ChainId.ETHEREUM
+    case 'Avalanche': return  ChainId.AVALANCHE
     default: throw new Error('Unknown network');
   }
 }
@@ -94,7 +63,7 @@ export const NATIVE_CURRENCY = {
 export const NODES = {
   [ChainId.AVALANCHE]: ["https://api.avax-test.network/ext/bc/C/rpc"],
   [ChainId.ETHEREUM]: [
-    "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+    "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
   ],
 };
 
@@ -105,8 +74,9 @@ export const BSC_SCAN_URLS = {
 
 export const setupNetwork = async (networkName: string) => {
   const provider = window.ethereum;
-  console.log({networkName})
+  // console.log({networkName})
   const chainId = getChainId(networkName);
+  // console.log(NODES[chainId])
   if (provider) {
         try {
           await provider.request({
@@ -114,10 +84,7 @@ export const setupNetwork = async (networkName: string) => {
             params: [
               {
                 chainId: `0x${chainId.toString(16)}`,
-                chainName: NETWORK_NAMES[chainId],
-                nativeCurrency: NATIVE_CURRENCY[chainId],
-                rpcUrls: NODES[chainId],
-                blockExplorerUrls: BSC_SCAN_URLS[chainId],
+                rpcUrls: NODES[chainId]
               },
             ],
           });

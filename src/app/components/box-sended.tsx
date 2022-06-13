@@ -1,4 +1,5 @@
 
+import { getChainId, NODES } from "lib/utilities";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -20,11 +21,11 @@ type TProps = {
 const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
   const wallet = useSelector(selectWallet);
   const { connect, disconnect } = useActions();
-  const {data} = useGetBoxByIdQuery(id, {pollingInterval: 10000});
+  const {data, refetch} = useGetBoxByIdQuery(id, {pollingInterval: 10000});
   // const {data: sendBlockchainData} = useGetBoxQuery({boxId: data?.sendBlockchainId!, contractNetwork: data?.sendNetwork!}, {pollingInterval: 30000});
   // const {data: recieveBlockchainData} = useGetBoxQuery({boxId: data?.recieveBlockchainId!, contractNetwork: data?.recieveNetwork!}, {pollingInterval: 30000});
 
-  // console.log({sendBlockchainData})
+
   // console.log({recieveBlockchainData})
   const [yourBox, setYourBox] = useState({  type: "Your",
           id: data?.sendBlockchainId!,
@@ -85,25 +86,32 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         default: break;
     }
   }
-console.log(2)
+  useEffect(() => {
+    if (data) {
+      const isSender = data.status === 'sender claimed' && wallet.address === data.sender
+      const isReciever = data.status === 'reciever claimed' && wallet.address === data.reciever
+      setBoxes();
+      if (data.status === statusToUpdate || isSender || isReciever) {
+        history.push(`/${redirect}/${id}`);
+      } 
+    }
+  }, [data]);
+
   useEffect(() => {
     if (!wallet.address) {
       connect();
     }
-    if (data) {
-      // if (data.status === statusToUpdate) {
-      //   history.push(`/${redirect}/${id}`);
-      // } else {
-        setBoxes();
-      // }
-    }
-  }, [data]);
-  console.log({data})
+    refetch();
+  }, [wallet.address]);
+  
+  // console.log({data})
   const claimProps: TClaim = {
     boxId: partnerBox.id,
     secret: data?.secret!,
     offchainId: id
   }
+  console.log({secret: data?.secret})
+  console.log({secret: data?.hashSecret})
   return (
     <span className="box-sended__wrapper">
     {data && (

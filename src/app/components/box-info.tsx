@@ -1,8 +1,9 @@
 import { BigNumber, ethers } from "ethers";
+import { getChainId, NODES } from "lib/utilities";
 import { startCase } from "lodash";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useGetBoxByIdQuery } from "redux/project.api";
 import { useClaimMutation, useGetBoxQuery } from "redux/registry.api";
 import { TProjectResponseData } from "redux/types";
@@ -31,20 +32,30 @@ const BoxInfo: FC<TProps> = ({data}) => {
   const [boxStatus, setBoxStatus] = useState('');
   const wallet = useSelector(selectWallet);
   const [claim, {}] = useClaimMutation();
+  const history = useHistory();
+  const { boxId } = useParams<{ boxId: string }>();
+  // console.log({data})
+
+  // console.log({network: data?.sendNetwork!})
+  // console.log(getChainId(data?.sendNetwork!))
+  // console.log(NODES[getChainId(data?.sendNetwork!)])
+ 
 
   useEffect(() => {
     if (data) {
       if(data.status === 'both deployed' || data.status === 'sender claimed' || data.status === 'reciever claimed') {
-        if (data.status === 'sender claimed' && wallet.address === data.reciever && data.type === 'Your') setBoxStatus('Sender claimed')
-        else if (data.status === 'reciever claimed' && wallet.address === data.sender && data.type === 'Your') setBoxStatus('Reciever claimed')
+        if (data.status === 'sender claimed' && data.type === 'Your' || data.status === 'reciever claimed' && data.type === 'Your') setBoxStatus('Сlaimed')
         else setBoxStatus('Claim is availible')
       } else if (data.status === 'first deployed') {
         setBoxStatus('Wait for both boxes deploy')
       } 
+    } else {
+      console.log(1)
+      history.push(`/waitForRecieverDeploy/${boxId}`);
     }
   })
 
-  console.log(1)
+
   return (
     <div className="box-sended">
         {data && data.type === 'Your' && (

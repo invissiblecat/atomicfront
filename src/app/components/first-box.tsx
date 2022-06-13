@@ -62,6 +62,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
         token: data?.recieveToken!,
         amount: data?.recieveAmount!,
         secret: data?.hashSecret!,
+        isHash: true,
         unlockTimestamp: +data?.unlockTimestamp! - 1000 * 60 * 60 * 1,
       };
       await switchNetwork(data?.recieveNetwork!);
@@ -79,6 +80,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
         token: data?.sendToken!,
         amount: data?.sendAmount!,
         secret: secret,
+        isHash: false,
         unlockTimestamp: +timelock
       };
       await switchNetwork(data?.sendNetwork!);
@@ -95,10 +97,8 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
     if (hashSecret) {
       await patchBox({
         id: boxId,
-        body: { secret: secret, hashSecret, unlockTimestamp: +timelock },
+        body: { secret: secret, hashSecret, unlockTimestamp: data?.unlockTimestamp ? data?.unlockTimestamp : +timelock },
       });
-    } else {
-      await patchBox({ id: boxId, body: { unlockTimestamp: data?.unlockTimestamp! - 1000 * 60 * 60 * 1} });
     }
     setButtonTitle('Box deployed. Wait for redirect...')
   };

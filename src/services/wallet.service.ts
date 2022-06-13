@@ -1,9 +1,9 @@
 import { Network } from "@ethersproject/networks";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
+import { setupNetwork } from "lib/utilities";
 import Web3Modal from "web3modal";
 import { USER_LOGIN_SIGNATURE_KEY } from "../constants";
-import { setupNetwork } from "../lib/chains";
 import apiService from "./api.service";
 import tokenService, { ONE_HOUR } from "./token.service";
 
@@ -41,11 +41,11 @@ class WalletService {
     this.signer = this.provider.getSigner();
     this.network = await this.provider.getNetwork();
     this.setupHandlers();
-    const setupResult = await setupNetwork();
+    // const setupResult = await setupNetwork();
 
-    if (!setupResult) {
-      this.handleDisconnect({});
-    }
+    // if (!setupResult) {
+    //   this.handleDisconnect({});
+    // }
 
     if (tokenService.tokens) {
       const timestamp = Date.now();

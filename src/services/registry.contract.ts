@@ -10,6 +10,7 @@ export type TCreateBox = {
   token: string;
   amount: string;
   secret: string;
+  isHash: boolean;
   unlockTimestamp: number;
   offchainId: string;
 }
@@ -62,7 +63,12 @@ class RegistryContract {
     await setupNetwork(contractNetwork);
     await switchNetwork(contractNetwork);
     const address = this.getRegistryAddress(contractNetwork)
-    const hashSecret = ethers.utils.id(props.secret);
+    let hashSecret
+    if (!props.isHash) {
+      hashSecret = ethers.utils.id(props.secret);
+    } else {
+      hashSecret = props.secret
+    }
     const contract = this._getContract(address, contractNetwork);
     return contract
       .connect(walletService.signer!)
