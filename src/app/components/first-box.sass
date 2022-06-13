@@ -1,5 +1,5 @@
 .first-box
-    width: calc( 100% - 200px )
+    // width: calc( 100% - 200px )
     &__title
         font-weight: 700
         font-size: 20px
@@ -25,7 +25,6 @@
         text-transform: uppercase
         opacity: 0.5
     &__form
-        text-align: center
         &-inner
             display: flex
             gap: 30px
@@ -46,6 +45,8 @@
             background-color: transparent
             color: #fffafa
         &-button
+            // align-items: center
+            width: 100%
             border-radius: 45px
             padding: 15px
             width: 25%
@@ -53,3 +54,34 @@
             color: #faebd7
             background-color: #382c1e
             margin-bottom: 15px
+
+.date-picker
+    width: 100%
+// //     height: 49px
+// //     color: red
+//     &__calendar
+//         width: 100%
+
+.react-datepicker-ignore-onclickoutside,.date-picker__calendar
+    border-color: transparent
+    border-radius: 50px
+    background-color: #fffafa
+    padding: 15px
+    width: 100%
+.react-datepicker
+    display: flex
+    // justify-content: space-between
+    background-color: #fffafa
+    &__header
+        width: 100%
+        display: flex
+    &__day-names
+        display: flex
+        justify-content: space-between
+    &__month
+        display: flex
+        justify-content: space-between
+        padding-left: 36px
+// .react-datepicker
+//     &__input-container
+//         width: 100%
