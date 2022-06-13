@@ -37,7 +37,7 @@ function MainPage() {
       <div className="page__form" id="form">
         <NewOrderForm></NewOrderForm>
       </div>
-      <FirstBoxSend boxId={""} statusToUpdate={""} redirect={""} />
+      {/* <FirstBoxSend boxId={""} statusToUpdate={""} redirect={""} /> */}
     </>
   );
 }

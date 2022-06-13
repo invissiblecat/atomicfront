@@ -6,7 +6,7 @@ import FirstBoxSend from "app/components/first-box";
 import SendTransaction from "app/components/send-transaction";
 import { FC, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useGetBoxByIdQuery } from "redux/project.api";
+import { useDeleteBoxMutation, useGetBoxByIdQuery } from "redux/project.api";
 import "./order.page.sass";
 
 type TProps = {
@@ -20,13 +20,18 @@ const OrderCreatedPage: FC<TProps> = ({ title, subtitle }) => {
   const {
     data: box,
     refetch: refetchProject,
+    isError
   } = useGetBoxByIdQuery(boxId, {
     pollingInterval: 10000,
   });
+  const [deleteBox, {}] = useDeleteBoxMutation();
 
   useEffect(() => {
     if (box && box.reciever && box.reciever !== '') {
       history.push(`/deploySender/${boxId}`)
+    }
+    if (isError) {
+      history.push(`/`)
     }
   }, [box]);
 
@@ -38,6 +43,12 @@ const OrderCreatedPage: FC<TProps> = ({ title, subtitle }) => {
       </div>
       <div className="order-page__subtitle">
         {subtitle}
+      </div>
+      <div  className="order-page__info">
+        If you have changed your mind, you can
+      <button className="order-page__button" onClick={() => {deleteBox({id: boxId})}}>
+        delete your box.
+      </button>
       </div>
     </div>
   );

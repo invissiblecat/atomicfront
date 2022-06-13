@@ -46,8 +46,14 @@ export const projectApi = createApi({
             body: body,
           }),
         }),
+        deleteBox: builder.mutation<any, {id: string}>({
+          query: ({ id}) => ({
+            url: `/boxes/${id}`,
+            method: "DELETE"
+          }),
+        }),
     })
 
 });
 
-export const {useCreateBoxMutation, useGetBoxQuery, useGetBoxesQuery, useGetBoxByIdQuery, usePatchBoxMutation} = projectApi;
+export const {useCreateBoxMutation, useGetBoxQuery, useGetBoxesQuery, useGetBoxByIdQuery, usePatchBoxMutation, useDeleteBoxMutation} = projectApi;

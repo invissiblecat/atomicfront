@@ -29,8 +29,8 @@ type TProps = {
 
 const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
   const { data } = useGetBoxByIdQuery(boxId, { pollingInterval: 10000 });
-  const [patchBox, {}] = usePatchBoxMutation();
-  const [createBox, { isSuccess }] = useCreateBoxMutation();
+  const [patchBox, {isLoading: isPatchLoading}] = usePatchBoxMutation();
+  const [createBox, { isSuccess, isLoading: isCreateLoading }] = useCreateBoxMutation();
   const [secret, setSecret] = useState("");
   const [timelock, setTimelock] = useState("");
   const wallet = useSelector(selectWallet);
@@ -46,33 +46,22 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
       contractNetwork: data?.recieveNetwork!,
     });
   const [approve, {}] = useApproveMutation();
-  const [chosenDate, setChosenDate] = useState(new Date());
-  // const [chosenDate, setChosenDate] = useState({
-  //   startDate: null,
-  //   endDate: null,
-  //   focusedInput: new Date(),
-  // });
-
-  // const handleDatesChange = (data: OnDatesChangeProps) => {
-  //   if (!data.focusedInput) {
-  //     setChosenDate({ ...data, focusedInput:new Date() });
-  //   } else {
-  //     setChosenDate(data);
-  //   }
-  // };
+  const [buttonTitle, setButtonTitle] = useState('Deploy box');
+  const [isDisabled, setDisabled] = useState(false);
 
   const deployBox = async () => {
+    setButtonTitle('Loading...')
+    setDisabled(true);
     let deployData;
     let network;
     let hashSecret;
     if (statusToUpdate === "both deployed") {
-      console.log("recieve");
       deployData = {
         reciever: data?.sender!,
         token: data?.recieveToken!,
         amount: data?.recieveAmount!,
         secret: data?.hashSecret!,
-        unlockTimestamp: +data?.unlockTimestamp! + 3600,
+        unlockTimestamp: +data?.unlockTimestamp! - 1000 * 60 * 60 * 1,
       };
       await switchNetwork(data?.recieveNetwork!);
       network = data?.recieveNetwork!;
@@ -83,7 +72,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
       )
         await approve(network);
     } else {
-      console.log("send");
+      setTimelock(Date.now().toString() + 1000 * 60 * 60 * 2)
       deployData = {
         reciever: data?.reciever!,
         token: data?.sendToken!,
@@ -110,6 +99,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
     } else {
       await patchBox({ id: boxId, body: { unlockTimestamp: +timelock } });
     }
+    setButtonTitle('Box deployed. Wait for redirect...')
   };
 
   useEffect(() => {
@@ -130,27 +120,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
         />
         {statusToUpdate !== "both deployed" && (
           <div className="first-box__form">
-            <div className="first-box__form-inner">
-              <span className="first-box__form-token-info">
-                {/* <input
-                        className="first-box__form-input"
-                        placeholder="Timelock in seconds"
-                        onChange={(e) => {setTimelock(e.target.value)}}
-                      ></input> */}
-                <DatePicker
-                  dateFormat={"dd/MM/yy"}
-                  className="date-picker__calendar"
-                  wrapperClassName="date-picker"
-                  selected={chosenDate}
-                  onChange={(chosenDate: Date) => setChosenDate(chosenDate)}
-                />
-                {/* <Datepicker
-                  onDatesChange={handleDatesChange}
-                  startDate={state.startDate} // Date or null
-                  endDate={state.endDate} // Date or null
-                  focusedInput={state.focusedInput}
-                /> */}
-              </span>
+          <div className="first-box__form-inner">
               <span className="first-box__form-token-info">
                 <input
                   className="first-box__form-input"
@@ -168,8 +138,9 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
           className="first-box__form-button"
           placeholder="Send htlc transaction"
           onClick={deployBox}
-        >
-          Deploy box
+          disabled={isDisabled}
+          >
+          {buttonTitle}
         </button>
       </div>
     </div>

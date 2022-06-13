@@ -25,6 +25,7 @@
         text-transform: uppercase
         opacity: 0.5
     &__form
+        justify-content: center
         &-inner
             display: flex
             gap: 30px
@@ -45,15 +46,19 @@
             background-color: transparent
             color: #fffafa
         &-button
-            // align-items: center
-            width: 100%
+            justify-content: center
+            box-shadow: 0 0 10px rgba(0,0,0,0.5)
             border-radius: 45px
             padding: 15px
             width: 25%
-            border-color: #7a6042
-            color: #faebd7
-            background-color: #382c1e
-            margin-bottom: 15px
+            // outline: 0 none !important
+            border-color: #2f4794
+            color: #faeedd
+            background-color: #2f4794
+            margin-top: 10px
+            margin-bottom: 100px
+            &:focus
+                outline: none
 
 .date-picker
     width: 100%

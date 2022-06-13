@@ -66,7 +66,7 @@ class RegistryContract {
     const contract = this._getContract(address, contractNetwork);
     return contract
       .connect(walletService.signer!)
-      .createBox(props.reciever, props.token, props.amount, hashSecret, props.unlockTimestamp, props.offchainId);
+      .createBox(props.reciever, props.token, props.amount, hashSecret, props.unlockTimestamp / 1000, props.offchainId);
   }
 
   async claimBox({
