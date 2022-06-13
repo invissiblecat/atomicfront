@@ -104,14 +104,11 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
     refetch();
   }, [wallet.address]);
   
-  // console.log({data})
   const claimProps: TClaim = {
     boxId: partnerBox.id,
     secret: data?.secret!,
     offchainId: id
   }
-  console.log({secret: data?.secret})
-  console.log({secret: data?.hashSecret})
   return (
     <span className="box-sended__wrapper">
     {data && (

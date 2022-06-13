@@ -7,11 +7,7 @@ class ERC20Contract {
   contracts: { [key: string]: Contract } = {};
 
   _getContract(address: string, contractNetwork: string) {
-    // if (!Object.keys(this.contracts).includes(address)) {
-      // console.log({address})
     return this._registerContract(address, contractNetwork);
-    // }x
-    // return this.contracts[address];
   }
 
   _registerContract(address: string, contractNetwork: string) {

@@ -17,7 +17,6 @@ const NewOrderForm = () => {
   const [toNetwork, setToNetwork] = useState('Ethereum');
 
   const handleFrom = (tokenName: string) => {
-    console.log(process.env.REACT_APP_API)
     switch (tokenName) {
       case 'AvalancheToken': setFromNetwork('Avalanche'); setFromToken(process.env.REACT_APP_TAVAX!); break; //todo address
       case 'EthereumToken': setFromNetwork('Ethereum'); setFromToken(process.env.REACT_APP_TETH!); break;
@@ -47,10 +46,8 @@ const NewOrderForm = () => {
       sendAmount: fromAmount,
       recieveAmount: toAmount
     }
-    console.log(boxParams)
     try {
       const res = await createBox(boxParams);
-      console.log(res)
       if (Object.hasOwn(res, "data")) {
         //@ts-ignore
         history.push(`/orderCreated/${res.data.id}`)

@@ -51,7 +51,6 @@ export const registryApi = createApi({
       async queryFn({boxId, contractNetwork}) {
         try {
           const res = await registryContract.getBox({ boxId, contractNetwork });
-          console.log({res})
           return res;
         } catch (error) {
           console.error("getBox err: ", error);

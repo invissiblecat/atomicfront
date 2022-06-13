@@ -28,18 +28,12 @@ type TProps = {
 };
 
 const BoxInfo: FC<TProps> = ({data}) => {
-  // const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
+  const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
   const [boxStatus, setBoxStatus] = useState('');
   const wallet = useSelector(selectWallet);
   const [claim, {}] = useClaimMutation();
   const history = useHistory();
   const { boxId } = useParams<{ boxId: string }>();
-  // console.log({data})
-
-  // console.log({network: data?.sendNetwork!})
-  // console.log(getChainId(data?.sendNetwork!))
-  // console.log(NODES[getChainId(data?.sendNetwork!)])
- 
 
   useEffect(() => {
     if (data) {
@@ -50,7 +44,6 @@ const BoxInfo: FC<TProps> = ({data}) => {
         setBoxStatus('Wait for both boxes deploy')
       } 
     } else {
-      console.log(1)
       history.push(`/waitForRecieverDeploy/${boxId}`);
     }
   })

@@ -49,7 +49,6 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
   const [buttonTitle, setButtonTitle] = useState('Deploy box');
   const [isDisabled, setDisabled] = useState(false);
 
-  console.log(data?.unlockTimestamp)
   const deployBox = async () => {
     setButtonTitle('Loading...')
     setDisabled(true);
@@ -105,7 +104,6 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
 
   useEffect(() => {
     if (data && data.status === statusToUpdate) {
-      console.log("redirect");
       history.push(`/${redirect}/${boxId}`);
     }
   }, [data]);
@@ -127,7 +125,6 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
                   className="first-box__form-input"
                   placeholder="Secret"
                   onChange={(e) => {
-                    console.log(e.target.value);
                     setSecret(e.target.value);
                   }}
                 ></input>
