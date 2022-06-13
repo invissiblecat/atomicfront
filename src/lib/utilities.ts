@@ -138,13 +138,17 @@ export const switchNetwork = async (networkName: string) => {
   try {
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
-      params: [{ chainId: `0x${chainId.toString(16)}` }],
+      params: [{ chainId: `0x${chainId.toString(16)}`,     
+                chainName: NETWORK_NAMES[chainId],
+                nativeCurrency: NATIVE_CURRENCY[chainId],
+                rpcUrls: NODES[chainId],
+                blockExplorerUrls: BSC_SCAN_URLS[chainId] }],
     });
   } catch (switchErr: any) {
     console.log(switchErr)
 }
-
 }
+
 export const getProvider = (contractNetwork: string) =>  {
   switch(contractNetwork){
     case 'Ethereum': return process.env.REACT_APP_AVALANCHE!; break;

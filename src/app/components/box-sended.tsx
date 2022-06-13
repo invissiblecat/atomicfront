@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useGetBoxByIdQuery } from "redux/project.api";
-import { useClaimMutation } from "redux/registry.api";
+import { useClaimMutation, useGetBoxQuery } from "redux/registry.api";
 import { selectWallet } from "redux/wallet.slice";
 import { TClaim, TCreateBox } from "services/registry.contract";
 import BoxInfo from "./box-info";
@@ -21,6 +21,11 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
   const wallet = useSelector(selectWallet);
   const { connect, disconnect } = useActions();
   const {data} = useGetBoxByIdQuery(id, {pollingInterval: 10000});
+  const {data: sendBlockchainData} = useGetBoxQuery({boxId: data?.sendBlockchainId!, contractNetwork: data?.sendNetwork!}, {pollingInterval: 30000});
+  const {data: recieveBlockchainData} = useGetBoxQuery({boxId: data?.recieveBlockchainId!, contractNetwork: data?.recieveNetwork!}, {pollingInterval: 30000});
+
+  console.log({sendBlockchainData})
+  console.log({recieveBlockchainData})
   const [yourBox, setYourBox] = useState({  type: "Your",
           id: data?.sendBlockchainId!,
           sendNetwork: data?.sendNetwork!,
@@ -41,7 +46,6 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
 
   const setBoxes = () => {
     const validate = checkAddress(wallet.address, data?.sender!, data?.reciever!);
-  
     switch (validate) {
       case 'sender': 
         setYourBox({  type: "Your",
@@ -81,19 +85,19 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
         default: break;
     }
   }
-console.log(2)
-  useEffect(() => {
-    if (!wallet.address) {
-      connect();
-    }
-    if (data) {
-      if (data.status === statusToUpdate) {
-        history.push(`/${redirect}/${id}`);
-      } else {
-        setBoxes();
-      }
-    }
-  }, [data]);
+// console.log(2)
+  // useEffect(() => {
+  //   if (!wallet.address) {
+  //     connect();
+  //   }
+  //   if (data) {
+  //     if (data.status === statusToUpdate) {
+  //       history.push(`/${redirect}/${id}`);
+  //     } else {
+  //       setBoxes();
+  //     }
+  //   }
+  // }, [data]);
   console.log({data})
   const claimProps: TClaim = {
     boxId: partnerBox.id,

@@ -25,7 +25,7 @@ function Pages() {
         <DeployFirstBox title="Trade partner found" subtitle="Please deploy your box first"/>
       </Route>
       <Route path="/waitForRecieverDeploy/:boxId" exact>
-        <SecondBoxWait title="Your box deployed" subtitle="Wait for reciever to deploy his box" statusToUpdate="both deployed" timerTitle="" redirect="firstClaim"/>
+        <SecondBoxWait title="Your box deployed" subtitle="Wait for reciever to deploy his box" statusToUpdate="both deployed" timerTitle="" redirect="claim"/>
       </Route>
       <Route path="/deployReciever/:boxId" exact>
         <DeploySecondBox title="First box deployed" subtitle="Now it's your turn to deploy"/>
