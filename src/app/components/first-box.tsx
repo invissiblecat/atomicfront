@@ -88,17 +88,16 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
       // refetchAllowanceSend();
       // if (!allowanceSend || allowanceSend.lt(BigNumber.from(deployData.amount)))
       //   await approve(network);
-    }
-    await createBox({
-      box: { ...deployData, offchainId: boxId },
-      contractNetwork: network,
-    });
-    if (hashSecret) {
       await patchBox({
         id: boxId,
         body: { secret: secret, hashSecret, unlockTimestamp: deployData.unlockTimestamp },
       });
     }
+    await createBox({
+      box: { ...deployData, offchainId: boxId },
+      contractNetwork: network,
+    });
+
     setButtonTitle('Box deployed. Wait for redirect...')
   };
 

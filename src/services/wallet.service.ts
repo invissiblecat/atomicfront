@@ -40,7 +40,7 @@ class WalletService {
     this.provider = new Web3Provider(this.web3ModalProvider);
     this.signer = this.provider.getSigner();
     this.network = await this.provider.getNetwork();
-    this.setupHandlers();
+    // this.setupHandlers();
     // const setupResult = await setupNetwork();
 
     // if (!setupResult) {
