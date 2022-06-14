@@ -14,15 +14,10 @@ function MainPage() {
         <div className="page__inner">
           <h1 className="page__title">Atomic Swap</h1>
           <div className="page__desc" id="about">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-            faucibus porta libero, at porttitor elit congue eget. Nullam dictum,
-            risus quis aliquet dictum, augue lacus lacinia augue, eget mattis
-            elit diam id nulla. Vivamus pulvinar sapien a mauris vestibulum
-            euismod. Curabitur vehicula ante gravida placerat rutrum.
-            Suspendisse potenti. Maecenas quis accumsan lectus. In id odio
-            congue, auctor enim in, ultricies lacus. Suspendisse potenti. Sed
-            risus arcu, vehicula at nibh id, faucibus condimentum ex. Nullam at
-            lobortis nisi. Integer lobortis tellus nec congue bibendum.
+            Trustless technology for swapping your tokens between different netwotks. 
+            Open-source: smart contracts, frontend, backend. Just a student's project but important technology.
+            Currently exists only on testnets.
+            Nice to meet you and have fun!
           </div>
         </div>
         <div className="page__line"> </div>

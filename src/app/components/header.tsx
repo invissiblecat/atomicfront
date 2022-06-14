@@ -14,12 +14,15 @@ const Header: FC<args> = ({ links }) => {
 
   return (
     <div className="header">
-      {/* <a className="header__item" href={`#${links[0]}`}>
-        About
+      <a className="header__item" href="https://github.com/invissiblecat/atomicfront">
+        Front-end source
       </a>
-      <a className="header__item" href={`#${links[1]}`}>
-        Form
-      </a> */}
+      <a className="header__item" href="https://github.com/invissiblecat/atomicback">
+        Back-end source
+      </a>
+      <a className="header__item" href="https://github.com/invissiblecat/atomicback">
+        Contracts source
+      </a>
       {wallet.address && (
         <>
               <a className="header__item">

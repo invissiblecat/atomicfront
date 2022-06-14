@@ -56,6 +56,21 @@ const NewOrderForm = () => {
       console.log(error);
     }
   }
+
+  const [valueFrom, setFrom] = useState('');
+  const [valueTo, setTo] = useState('');
+  const handleChangeFrom = (event: any) => {
+    const result = event.target.value.replace(/\D/, '');
+
+    setFrom(result)
+    setFromAmount(ethers.utils.parseUnits(result).toString())
+  };
+  const handleChangeTo = (event: any) => {
+    const result = event.target.value.replace(/\D/, '');
+    
+    setTo(result)
+    setToAmount(ethers.utils.parseUnits(result).toString())
+  };
   
   return (
     <>
@@ -63,14 +78,14 @@ const NewOrderForm = () => {
         <div className="new-order__title">Create your own swap</div>
         <div className="new-order__form-inner">
           <span className="new-order__form-token-info">
-            <input className="new-order__form-input" placeholder="From" onChange={e => setFromAmount(ethers.utils.parseUnits(e.target.value).toString())}></input>
+            <input className="new-order__form-input" placeholder="From" value={valueFrom} onChange={e => handleChangeFrom(e)}></input>
             <select className="new-order__form-select" defaultValue={'AvalancheToken'} onChange={e => handleFrom(e.target.value)}>
               <option value='AvalancheToken'>tAVAX</option>
               <option value='EthereumToken'>tETH</option>
             </select>
           </span>
           <span className="new-order__form-token-info">
-            <input className="new-order__form-input" placeholder="To" onChange={e => setToAmount(ethers.utils.parseUnits(e.target.value).toString())}></input>
+            <input className="new-order__form-input" placeholder="To" value={valueTo} onChange={e => handleChangeTo(e)}></input>
             <select className="new-order__form-select" defaultValue={'EthereumToken'} onChange={e => handleTo(e.target.value)}>
             <option value='AvalancheToken'>tAVAX</option>
               <option value='EthereumToken'>tETH</option>
