@@ -1,19 +1,13 @@
 import NewOrderForm from "app/components/deploy/deploy.form";
-import FirstBoxSend from "app/components/first-box";
-import Header from "app/components/header";
+import { useActions } from "app/components/hooks/use-actions";
 import MainTable from "app/components/main.table";
-import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { animateScroll } from "react-scroll";
+import { useSelector } from "react-redux";
+import { selectWallet } from "redux/wallet.slice";
 import "./main.page.sass";
 
 function MainPage() {
-  // useEffect(() => {
-  //   animateScroll.scrollTo(170, {
-  //     duration: 300,
-  //   });
-  // }, []);
-
+  const wallet = useSelector(selectWallet);
+  const { connect, disconnect } = useActions();
   return (
     <>
       <div className="page">
@@ -32,12 +26,24 @@ function MainPage() {
           </div>
         </div>
         <div className="page__line"> </div>
-      </div>
+
       <MainTable />
+      {wallet.address ? ( 
       <div className="page__form" id="form">
         <NewOrderForm></NewOrderForm>
-      </div>
-      {/* <FirstBoxSend boxId={""} statusToUpdate={""} redirect={""} /> */}
+      </div>) 
+      :
+      (
+        <div className="page__form" id="form">
+          <div  className="page__info">
+            <button className="page__button" onClick={() => {connect()}}>
+              Connect wallet
+            </button>
+              to create your own swap.
+          </div>
+          </div>
+      )}
+    </div>
     </>
   );
 }

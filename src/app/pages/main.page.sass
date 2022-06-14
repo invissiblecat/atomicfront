@@ -18,28 +18,6 @@ body
     font-size: 22px
     text-align: left
     margin-bottom: 80px
-//   &__line
-//     position: relative
-//     width: 1000px
-//     height: 150px
-//     overflow: hidden
-//   &__line::before
-//     content: '___________________'
-//     position: absolute
-//     font-size: 100px
-//     color: transparent
-//     text-decoration-style: wavy
-//     text-decoration-color: #fff
-//     text-decoration-line: underline
-//     text-decoration-thickness: 1px
-//     animation: animate 2s linear infinite
-
-//     @keyframes animate 
-//         0% 
-//             transform: translateX(-1px)
-
-//         100% 
-//             transform: translateX(-50px)
     &__line
       position: absolute
       top: 100px
@@ -49,3 +27,24 @@ body
       width: 100%
       height: 1000px
       background-size: 1000px 100px
+  &__button
+      box-shadow: 0 0 8px rgba(0,0,0,0.5)
+      border-radius: 45px
+      padding: 1px
+      width: 150px
+      // outline: 0 none !important
+      border-color: rgba(197, 208, 230, 0.5)
+      opacity: 0.5
+      color: #000
+      background-color:rgba(197, 208, 230, 0.5)
+      margin-top: 10px
+      margin-bottom: 100px
+      margin-right: 10px
+      &:focus
+          outline: none
+  &__info
+      justify-content: center
+      opacity: 0.5
+      color: #000
+      margin-top: 100px
+      margin-left: 500px

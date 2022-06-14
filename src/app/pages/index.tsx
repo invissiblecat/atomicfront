@@ -30,9 +30,6 @@ function Pages() {
       <Route path="/deployReciever/:boxId" exact>
         <DeploySecondBox title="First box deployed" subtitle="Now it's your turn to deploy"/>
       </Route>
-      {/* <Route path="/claim/:boxId" exact>
-        <ClaimPage title="Both box deployed" subtitle="You can claim your money" timerTitle='' statusToUpdate="first claimed" redirect="ending"/>
-      </Route> */}
       <Route path="/claim/:boxId" exact>
         <ClaimPage title="Both box deployed" subtitle="You can claim your money" timerTitle='' statusToUpdate="both claim" redirect="ending"/>
       </Route>
