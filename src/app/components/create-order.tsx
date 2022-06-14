@@ -25,15 +25,8 @@ const CreateOrder: FC<TProps> = ({ timerTitle, id }) => {
 
   return (
     <div className="create-order">
-      {/* <div className="create-order__state-loading">
-        <div className="create-order__description-text">
-          {timerTitle}
-        </div>
-        <div className="create-order__time">15:23:16</div>
-      </div> */}
       <StateLoading
-        timerTitle={"Waiting..."}
-        // isLoading={false}
+        timerTitle={timerTitle}
         isLoading={true}
         time={"15:23:16"}
       />

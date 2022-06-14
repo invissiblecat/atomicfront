@@ -73,7 +73,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
       // )
         // await approve(network);
     } else {
-      setTimelock((Date.now() + 1000 * 60 * 60 * 2).toString())
+      setTimelock((Date.now() + 1000 * 60 * 60 * 24).toString())
       deployData = {
         reciever: data?.reciever!,
         token: data?.sendToken!,
@@ -96,7 +96,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
     if (hashSecret) {
       await patchBox({
         id: boxId,
-        body: { secret: secret, hashSecret, unlockTimestamp: data?.unlockTimestamp ? data?.unlockTimestamp : +timelock },
+        body: { secret: secret, hashSecret, unlockTimestamp: deployData.unlockTimestamp },
       });
     }
     setButtonTitle('Box deployed. Wait for redirect...')
@@ -132,6 +132,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
             </div>
           </div>
         )}
+        <div className="first-box__form-inner">
         <button
           className="first-box__form-button"
           placeholder="Send htlc transaction"
@@ -140,6 +141,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
           >
           {buttonTitle}
         </button>
+        </div>
       </div>
     </div>
   );
