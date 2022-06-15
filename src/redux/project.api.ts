@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { TProjectResponseData, TProjectRequestData } from "./types";
+import { TProjectResponseData, TProjectRequestData } from "../lib/types";
 import TokenService from "../services/token.service";
 
 export const projectApi = createApi({

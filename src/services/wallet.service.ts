@@ -1,29 +1,15 @@
 import { Network } from "@ethersproject/networks";
 import { JsonRpcSigner, Web3Provider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
-import { setupNetwork } from "lib/utilities";
 import Web3Modal from "web3modal";
-import { USER_LOGIN_SIGNATURE_KEY } from "../constants";
 import apiService from "./api.service";
 import tokenService, { ONE_HOUR } from "./token.service";
 
 type THandler<T> = (arg0: T) => Promise<void>;
 
-const providerOptions = {
-  // walletconnect: {
-  //   package: WalletConnectProvider,
-  //   options: {
-  //     infuraId: INFURA_ID,
-  //   },
-  // },
-};
-
-export const web3Modal = new Web3Modal({
-  network: "mainnet",
-  cacheProvider: true,
-  providerOptions,
-});
-
+export const web3Modal = new Web3Modal();
+export const USER_LOGIN_SIGNATURE_KEY =
+  "Atomic Swap sign confirmation" as const;
 class WalletService {
   web3ModalProvider?: any;
   provider?: Web3Provider;
@@ -114,12 +100,12 @@ class WalletService {
 
   setupHandlers() {
     const handleAccountsChanged = async (accounts: string[]) => {
-      // if (accounts.length) {
-      //   await this.handleAccountsChanged(accounts);
-      // } else {
+      if (accounts.length) {
+        await this.handleAccountsChanged(accounts);
+      } else {
       await this.handleDisconnect({});
       this.disconnect();
-      // }
+      }
     };
 
     const handleChainChanged = async (chainId: string) => {

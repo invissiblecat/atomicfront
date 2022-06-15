@@ -1,14 +1,9 @@
-import { FC } from "react";
 import { useSelector } from "react-redux";
 import { selectWallet } from "redux/wallet.slice";
 import "./header.sass";
 import { useActions } from "./hooks/use-actions";
 
-type args = {
-  links: string[];
-};
-
-const Header: FC<args> = ({ links }) => {
+const Header = () => {
   const { connect, disconnect } = useActions();
   const wallet = useSelector(selectWallet);
 

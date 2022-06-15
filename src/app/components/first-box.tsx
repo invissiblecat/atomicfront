@@ -29,8 +29,8 @@ type TProps = {
 
 const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
   const { data } = useGetBoxByIdQuery(boxId, { pollingInterval: 10000 });
-  const [patchBox, {isLoading: isPatchLoading}] = usePatchBoxMutation();
-  const [createBox, { isSuccess, isLoading: isCreateLoading }] = useCreateBoxMutation();
+  const [patchBox] = usePatchBoxMutation();
+  const [createBox] = useCreateBoxMutation();
   const [secret, setSecret] = useState("");
   const [timelock, setTimelock] = useState("");
   const wallet = useSelector(selectWallet);

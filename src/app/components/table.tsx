@@ -1,7 +1,7 @@
 import { sliceAddress } from "app/utils";
 import { ethers } from "ethers";
 import { FC } from "react";
-import { TProjectResponseData } from "redux/types";
+import { TProjectResponseData } from "lib/types";
 import "./table.sass";
 
 type TProps = {

@@ -9,7 +9,6 @@ import {
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import walletService from "services/wallet.service";
 import { projectApi } from "../redux/project.api";
-import projectReducer from "../redux/project.slice";
 import { registryApi } from "../redux/registry.api";
 import { tokenContractApi } from "../redux/token-contract.api";
 import walletReducer from "../redux/wallet.slice";
@@ -96,7 +95,6 @@ export const store = configureStore({
   reducer: {
     [registryApi.reducerPath]: registryApi.reducer,
     wallet: walletReducer,
-    project: projectReducer,
     [tokenContractApi.reducerPath]: tokenContractApi.reducer,
     [projectApi.reducerPath]: projectApi.reducer,
   },

@@ -1,5 +1,4 @@
 import { connect, disconnect } from "redux/wallet.slice";
-import { IChainData } from "./types";
 
 export function ellipseAddress(address = "", width = 4): string {
   if (!address) {
@@ -7,28 +6,6 @@ export function ellipseAddress(address = "", width = 4): string {
   }
   return `${address.slice(0, width + 2)}...${address.slice(-width)}`;
 }
-
-export const ethAddressRegex = new RegExp(/^0x[a-fA-F0-9]{40}$/gi);
-export const decimalsRegex = new RegExp(/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/gi);
-
-export enum EValidationTypes {
-  REQUIRED = "required",
-  ADDRESS = "address",
-  ACTUAL_DATE = "actualDate",
-  NUMBER = "number",
-}
-
-export const validations = {
-  [EValidationTypes.REQUIRED]: (value: string) => !!value,
-  [EValidationTypes.ADDRESS]: (value: string) => ethAddressRegex.test(value),
-  [EValidationTypes.ACTUAL_DATE]: (value: Date) =>
-    new Date().getTime() < value.getTime(),
-  [EValidationTypes.NUMBER]: (value: string) => decimalsRegex.test(value),
-};
-
-export const log = (...args: any) => {
-  if (process.env.REACT_APP_DEBUG === "true") console.log("DEBUG ", ...args);
-};
 
 export enum ChainId {
   AVALANCHE = +process.env.REACT_APP_AVALANCHE_CHAINID!,
@@ -67,10 +44,6 @@ export const NODES = {
   ],
 };
 
-export const BSC_SCAN_URLS = {
-  [ChainId.AVALANCHE]: ["https://testnet.snowtrace.io/"],
-  [ChainId.ETHEREUM]: ["https://rinkeby.etherscan.io"],
-};
 
 export const setupNetwork = async (networkName: string) => {
   const provider = window.ethereum;
@@ -115,9 +88,34 @@ export const switchNetwork = async (networkName: string) => {
 
 export const getProvider = (contractNetwork: string) =>  {
   switch(contractNetwork){
-    case 'Ethereum': return process.env.REACT_APP_AVALANCHE!; break;
-    case 'Avalanche': return process.env.REACT_APP_ETHEREUM!; break;
+    case 'Ethereum': return process.env.REACT_APP_AVALANCHE!;
+    case 'Avalanche': return process.env.REACT_APP_ETHEREUM!;
     default: return ''
+  }
+}
+
+export const getRegistry = (contractNetwork: string) =>  {
+  switch(contractNetwork){
+    case 'Ethereum': return process.env.REACT_APP_AVALANCHE_REGISTRY!;
+    case 'Avalanche': return process.env.REACT_APP_ETHEREUM_REGISTRY!;
+    default: return ''
+  }
+}
+
+export const getTokenSymbol = (tokenAddress: string) => {
+  switch (tokenAddress) {
+    case process.env.REACT_APP_TETH: return 'tETH';
+    case process.env.REACT_APP_TAVAX: return 'tAVAX'
+    default: return 'unknwn tkn'
+  }
+}
+
+export const checkAddress = (address: string, sender: string, reciever: string) => {
+  if (address === sender) {
+      return "sender";
+  } else if (address === reciever) { return "reciever"} 
+  else {
+      return 'redirect'
   }
 }
 

@@ -1,16 +1,12 @@
 import { BigNumber, ethers } from "ethers";
-import { getChainId, NODES } from "lib/utilities";
-import { startCase } from "lodash";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { useGetBoxByIdQuery } from "redux/project.api";
 import { useClaimMutation, useGetBoxQuery } from "redux/registry.api";
-import { TProjectResponseData } from "redux/types";
 import { selectWallet } from "redux/wallet.slice";
 import { TClaim } from "services/registry.contract";
 import "./box-sended.sass";
-import { getTokenSymbol } from "./utils/utils";
+import { getTokenSymbol } from "../../lib/utilities";
 
 type TProps = {
   data: {
@@ -28,7 +24,7 @@ type TProps = {
 };
 
 const BoxInfo: FC<TProps> = ({data}) => {
-  const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
+  // const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
   const [boxStatus, setBoxStatus] = useState('');
   const wallet = useSelector(selectWallet);
   const [claim, {}] = useClaimMutation();
@@ -38,7 +34,7 @@ const BoxInfo: FC<TProps> = ({data}) => {
   useEffect(() => {
     if (data) {
       if(data.status === 'both deployed' || data.status === 'sender claimed' || data.status === 'reciever claimed') {
-        if (data.status === 'sender claimed' && data.type === 'Your' || data.status === 'reciever claimed' && data.type === 'Your') setBoxStatus('Сlaimed')
+        if ((data.status === 'sender claimed' && data.type === 'Your') || (data.status === 'reciever claimed' && data.type === 'Your')) setBoxStatus('Сlaimed')
         else setBoxStatus('Claim is availible')
       } else if (data.status === 'first deployed') {
         setBoxStatus('Wait for both boxes deploy')
@@ -102,7 +98,7 @@ const BoxInfo: FC<TProps> = ({data}) => {
           </button>
         </div>
         )}
-        {boxStatus && boxStatus == 'Claim is availible' && wallet.address === data.reciever && (
+        {boxStatus && boxStatus === 'Claim is availible' && wallet.address === data.reciever && (
              <button className="box-sended__button" onClick={() => {claim({props: data.claimProps, contractNetwork: data.claimProps.claimNetwork})}}>
              Claim
            </button>

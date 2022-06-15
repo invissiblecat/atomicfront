@@ -3,9 +3,7 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query/react";
-import {setupNetwork, switchNetwork } from "lib/utilities";
-import { pick } from "lodash";
-import registryContract, { TBox, TClaim, TCreateBox } from "services/registry.contract";
+import registryContract, {TClaim, TCreateBox } from "services/registry.contract";
 
 export const registryApi = createApi({
   reducerPath: "registryApi",

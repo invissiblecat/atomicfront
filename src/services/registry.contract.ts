@@ -1,5 +1,5 @@
-import { BigNumber, Contract, ContractTransaction, ethers, Signer } from "ethers";
-import { getProvider, setupNetwork, switchNetwork } from "lib/utilities";
+import { BigNumber, Contract, ContractTransaction, ethers } from "ethers";
+import { getProvider, switchNetwork } from "lib/utilities";
 import RegistryArtifacts from "../abi/Registry.json";
 import walletService from "./wallet.service";
 
@@ -56,7 +56,7 @@ class RegistryContract {
     props: TCreateBox;
     contractNetwork: string;
   }): Promise<ContractTransaction> {
-    await setupNetwork(contractNetwork);
+    // await setupNetwork(contractNetwork);
     await switchNetwork(contractNetwork);
     const address = this.getRegistryAddress(contractNetwork)
     let hashSecret
@@ -101,8 +101,8 @@ class RegistryContract {
 
   getRegistryAddress(contractNetwork: string): string {
     switch(contractNetwork){
-      case 'Ethereum': return process.env.REACT_APP_ETHEREUM_REGISTRY!; break;
-      case 'Avalanche': return process.env.REACT_APP_AVALANCHE_REGISTRY!; break;
+      case 'Ethereum': return process.env.REACT_APP_ETHEREUM_REGISTRY!;
+      case 'Avalanche': return process.env.REACT_APP_AVALANCHE_REGISTRY!;
       default: return ''
     }
   }

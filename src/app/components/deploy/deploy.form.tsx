@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { ethers } from "ethers";
 import { useCreateBoxMutation } from "redux/project.api";
-import { TProjectRequestData } from "redux/types";
+import { TProjectRequestData } from "lib/types";
 import { selectWallet } from "redux/wallet.slice";
 import "./deploy.form.sass";
 import { useHistory } from "react-router-dom";

@@ -10,7 +10,7 @@ import { TClaim, TCreateBox } from "services/registry.contract";
 import BoxInfo from "./box-info";
 import "./box-sended.sass";
 import { useActions } from "./hooks/use-actions";
-import { checkAddress } from "./utils/utils";
+import { checkAddress } from "../../lib/utilities";
 
 type TProps = {
   id: string,
