@@ -23,10 +23,10 @@ class WalletService {
 
   async connect() {
     this.web3ModalProvider = await web3Modal.connect();
-    this.provider = new Web3Provider(this.web3ModalProvider);
+    this.provider = new Web3Provider(this.web3ModalProvider, 'any');
     this.signer = this.provider.getSigner();
     this.network = await this.provider.getNetwork();
-    // this.setupHandlers();
+    this.setupHandlers();
     // const setupResult = await setupNetwork();
 
     // if (!setupResult) {
@@ -111,7 +111,8 @@ class WalletService {
     const handleChainChanged = async (chainId: string) => {
       const formattedChainId = BigNumber.from(chainId).toNumber();
       await this.handleChainChanged(formattedChainId);
-      window.location.reload();
+      // window.location.reload();
+      this.connect()
     };
 
     const handleDisconnect = async (error: {
@@ -126,6 +127,7 @@ class WalletService {
     this.web3ModalProvider.on("chainChanged", handleChainChanged);
     this.web3ModalProvider.on("disconnect", handleDisconnect);
   }
+
 }
 
 const walletService = new WalletService();

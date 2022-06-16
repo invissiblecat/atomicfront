@@ -1,5 +1,5 @@
 import { BigNumber, Contract, ContractTransaction, ethers } from "ethers";
-import { getProvider, switchNetwork } from "lib/utilities";
+import { getProvider, setupNetwork, switchNetwork } from "lib/utilities";
 import RegistryArtifacts from "../abi/Registry.json";
 import walletService from "./wallet.service";
 
@@ -57,7 +57,7 @@ class RegistryContract {
     contractNetwork: string;
   }): Promise<ContractTransaction> {
     // await setupNetwork(contractNetwork);
-    await switchNetwork(contractNetwork);
+    // await switchNetwork(contractNetwork);
     const address = this.getRegistryAddress(contractNetwork)
     let hashSecret
     if (!props.isHash) {

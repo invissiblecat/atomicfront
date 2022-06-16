@@ -20,6 +20,7 @@ import DatePicker from "react-datepicker";
 // } from "@datepicker-react/styled";
 import "./first-box.sass";
 import Table from "./table";
+import { time } from "console";
 
 type TProps = {
   boxId: string;
@@ -30,7 +31,7 @@ type TProps = {
 const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
   const { data } = useGetBoxByIdQuery(boxId, { pollingInterval: 10000 });
   const [patchBox] = usePatchBoxMutation();
-  const [createBox] = useCreateBoxMutation();
+  const [createBox, {isError}] = useCreateBoxMutation();
   const [secret, setSecret] = useState("");
   const [timelock, setTimelock] = useState("");
   const wallet = useSelector(selectWallet);
@@ -64,8 +65,9 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
         isHash: true,
         unlockTimestamp: +data?.unlockTimestamp! - 1000 * 60 * 60 * 1,
       };
-      await switchNetwork(data?.recieveNetwork!);
       network = data?.recieveNetwork!;
+      // console.log(network)
+      await switchNetwork(network);
       // refetchAllowanceRecieve();
       // if (
       //   !allowanceRecieve ||
@@ -82,12 +84,13 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
         isHash: false,
         unlockTimestamp: +timelock
       };
-      await switchNetwork(data?.sendNetwork!);
       hashSecret = ethers.utils.id(secret);
       network = data?.sendNetwork!;
+      await switchNetwork(network);
       // refetchAllowanceSend();
       // if (!allowanceSend || allowanceSend.lt(BigNumber.from(deployData.amount)))
       //   await approve(network);
+      console.log(timelock)
       await patchBox({
         id: boxId,
         body: { secret: secret, hashSecret, unlockTimestamp: deployData.unlockTimestamp },
