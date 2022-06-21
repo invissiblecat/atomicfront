@@ -16,6 +16,7 @@ const MainTable = () => {
   const idRows = [];
   const sendRows = [];
   const buyRows = [];
+  const rows = [];
   const onClick = async (boxId: string) => {
     try {
       const res = await setReciever({
@@ -44,52 +45,32 @@ const MainTable = () => {
 
   if (data) {
     for (let i = 0; i < data.length; i++) {
-      idRows.push(
+      rows.push(   
+        <div className="main-table__row">
         <div className="main-table__value" onClick={() => onClick(data[i].id)}>
           {data[i].id}
         </div>
-      );
-      sendRows.push(
         <div className="main-table__value">
           {ethers.utils.formatUnits(data[i].recieveAmount)}{" "}
           {getTokenSymbol(data[i].recieveToken)}
         </div>
-      ); //todo send token
-      buyRows.push(
         <div className="main-table__value">
           {ethers.utils.formatUnits(data[i].sendAmount)}{" "}
           {getTokenSymbol(data[i].sendToken)}
         </div>
-      );
+        </div>
+    )
     }
   }
 
   return (
-    // <div className="main-table">
-    //   <div className="main-table__row">
-    //     <div className="main-table__name">Order id</div>
-    //     {idRows}
-    //   </div>
-    //   <div className="main-table__row">
-    //     <div className="main-table__name">Send</div>
-    //     {sendRows}
-    //   </div>
-    //   <div className="main-table__row">
-    //     <div className="main-table__name">Buy</div>
-    //     {buyRows}
-    //   </div>
-    // </div>
     <div className="main-table">
       <div className="main-table__row">
         <div className="main-table__name">Order id</div>
         <div className="main-table__name">Send</div>
         <div className="main-table__name">Buy</div>
       </div>
-      <div className="main-table__row">
-        <div className="main-table__value">Order id</div>
-        <div className="main-table__value">Send</div>
-        <div className="main-table__value">Buy</div>
-      </div>
+        {rows}
     </div>
   );
 };
