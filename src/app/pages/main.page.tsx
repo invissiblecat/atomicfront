@@ -18,7 +18,7 @@ function MainPage() {
             Trustless technology for swapping your tokens between different netwotks. <br/>
             Open-source: smart contracts, frontend, backend. 
             Just a student's project but important technology.
-            <br/>Currently exists only on testnets.
+            <br/>Currently exists only on Avalanche Fuji and Ethereum Rinkeby testnets.
             <br/> Nice to meet you and have fun!
           </div>
         </div>

@@ -13,21 +13,24 @@ const OrderCreatedPage: FC<TProps> = ({ title, subtitle }) => {
   const { boxId } = useParams<{ boxId: string }>();
   const history = useHistory();
   const {
-    data: box,
-    isError
+    data: box  
   } = useGetBoxByIdQuery(boxId, {
     pollingInterval: 10000,
   });
-  const [deleteBox, {}] = useDeleteBoxMutation();
+  const [deleteBox, {isSuccess: isDeleteSuccess}] = useDeleteBoxMutation();
 
   useEffect(() => {
     if (box && box.reciever && box.reciever !== '') {
       history.push(`/deploySender/${boxId}`)
     }
-    if (isError) {
+  
+  }, [box]);
+
+  useEffect(() => {
+    if (isDeleteSuccess) {
       history.push(`/`)
     }
-  }, [box]);
+  }, [isDeleteSuccess])
 
   
   return (
