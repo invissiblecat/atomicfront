@@ -43,6 +43,7 @@ class ERC20Contract {
     spender: string;
     amount: BigNumber;
   }): Promise<ContractTransaction> {
+    await switchNetwork(contractNetwork);
     const address = this.getTokenAddress(contractNetwork)
     const contract = this._getContract(address, contractNetwork);
     return contract.connect(walletService.signer!).approve(spender, amount);

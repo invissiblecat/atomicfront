@@ -111,7 +111,6 @@ class WalletService {
     const handleChainChanged = async (chainId: string) => {
       const formattedChainId = BigNumber.from(chainId).toNumber();
       await this.handleChainChanged(formattedChainId);
-      this.connect()
     };
 
     const handleDisconnect = async (error: {

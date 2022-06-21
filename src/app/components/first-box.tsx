@@ -36,20 +36,19 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
   const [timelock, setTimelock] = useState("");
   const wallet = useSelector(selectWallet);
   const history = useHistory();
-  // const { data: allowanceSend, refetch: refetchAllowanceSend } =
-  //   useGetAllowanceQuery(
-  //     { owner: wallet.address, contractNetwork: data?.sendNetwork! },
-  //     { skip: !data || data.status === "both deployed" }
-  //   );
-  // const { data: allowanceRecieve, refetch: refetchAllowanceRecieve } =
-  //   useGetAllowanceQuery({
-  //     owner: wallet.address,
-  //     contractNetwork: data?.recieveNetwork!,
-  //   });
   const [approve, {}] = useApproveMutation();
   const [buttonTitle, setButtonTitle] = useState('Deploy box');
   const [isDisabled, setDisabled] = useState(false);
 
+  const allowance = async (network: string, type: string) => {
+    if (type === 'send') {
+      await approve(network);
+    }
+    if (type === 'recieve') {
+      await approve(network);
+    }
+
+  }
   const deployBox = async () => {
     setButtonTitle('Loading...')
     setDisabled(true);
@@ -63,17 +62,11 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
         amount: data?.recieveAmount!,
         secret: data?.hashSecret!,
         isHash: true,
-        unlockTimestamp: +data?.unlockTimestamp! - 1000 * 60 * 60 * 1,
+        unlockTimestamp: Date.now() + 1000 * 60 * 60 * 23,
       };
       network = data?.recieveNetwork!;
-      // console.log(network)
-      await switchNetwork(network);
-      // refetchAllowanceRecieve();
-      // if (
-      //   !allowanceRecieve ||
-      //   allowanceRecieve.lt(BigNumber.from(deployData.amount))
-      // )
-        // await approve(network);
+      await allowance(network, 'recieve')
+
     } else {
       setTimelock((Date.now() + 1000 * 60 * 60 * 24).toString())
       deployData = {
@@ -86,11 +79,7 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
       };
       hashSecret = ethers.utils.id(secret);
       network = data?.sendNetwork!;
-      await switchNetwork(network);
-      // refetchAllowanceSend();
-      // if (!allowanceSend || allowanceSend.lt(BigNumber.from(deployData.amount)))
-      //   await approve(network);
-      console.log(timelock)
+      await allowance(network, 'send')
       await patchBox({
         id: boxId,
         body: { secret: secret, hashSecret, unlockTimestamp: deployData.unlockTimestamp },
