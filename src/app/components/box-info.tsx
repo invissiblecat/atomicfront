@@ -26,9 +26,17 @@ type TProps = {
 const BoxInfo: FC<TProps> = ({data}) => {
   const [boxStatus, setBoxStatus] = useState('');
   const wallet = useSelector(selectWallet);
-  const [claim, {}] = useClaimMutation();
+  const [claim, {isLoading}] = useClaimMutation();
   const history = useHistory();
   const { boxId } = useParams<{ boxId: string }>();
+  const [claimButtonText, setClaimButtonText] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {setClaimButtonText('Loading...'); setIsDisabled(true);} else {
+      setClaimButtonText('Claim'); setIsDisabled(false);
+    }
+  })
 
   useEffect(() => {
     if (data) {
@@ -98,8 +106,8 @@ const BoxInfo: FC<TProps> = ({data}) => {
         </div>
         )}
         {boxStatus && boxStatus === 'Claim is availible' && wallet.address === data.reciever && (
-             <button className="box-sended__button" onClick={() => {claim({props: data.claimProps, contractNetwork: data.claimProps.claimNetwork})}}>
-             Claim
+             <button className="box-sended__button" disabled={isDisabled} onClick={() => {claim({props: data.claimProps, contractNetwork: data.claimProps.claimNetwork})}}>
+             {claimButtonText}
            </button>
         )}
       </div>

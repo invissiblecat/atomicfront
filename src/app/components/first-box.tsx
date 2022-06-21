@@ -57,14 +57,14 @@ const FirstBoxSend: FC<TProps> = ({ boxId, statusToUpdate, redirect }) => {
       await allowance(network, 'recieve')
 
     } else {
-      setTimelock((Date.now() + 1000 * 60 * 60 * 24).toString())
+
       deployData = {
         reciever: data?.reciever!,
         token: data?.sendToken!,
         amount: data?.sendAmount!,
         secret: secret,
         isHash: false,
-        unlockTimestamp: +timelock
+        unlockTimestamp: Date.now() + 1000 * 60 * 60 * 24
       };
       hashSecret = ethers.utils.id(secret);
       network = data?.sendNetwork!;
