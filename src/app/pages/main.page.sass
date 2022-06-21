@@ -9,6 +9,7 @@ body
     text-align: left
     font-size: 180px
     font-style: italic
+    margin-bottom: 30px
   &__desc
     font-style: normal
     font-size: 22px
@@ -24,23 +25,28 @@ body
       height: 1000px
       background-size: 1000px 100px
   &__button
-      box-shadow: 0 0 8px rgba(0,0,0,0.5)
-      border-radius: 45px
-      padding: 1px
-      width: 150px
-      border-color: rgba(197, 208, 230, 0.5)
-      opacity: 0.5
-      color: #000
-      background-color:rgba(197, 208, 230, 0.5)
-      margin-bottom: 100px
-      margin-right: 10px
-      &:focus
-          outline: none
+    box-shadow: 0 0 8px rgba(0,0,0,0.5)
+    border-radius: 45px
+    padding: 1px
+    width: 150px
+    border-color: rgba(197, 208, 230, 0.5)
+    opacity: 0.5
+    color: #000
+    background-color: rgba(197, 208, 230, 0.5)
+    margin-bottom: 100px
+    margin-right: 10px
+    &:focus
+      outline: none
   &__info
-      display: flex
-      justify-content: center
-      opacity: 0.5
-      color: #000
-      margin-top: 100px
+    display: flex
+    justify-content: center
+    opacity: 0.5
+    color: #000
+    margin-top: 100px
   &__form
     justify-content: center
+
+@media (max-width: 1143px)
+  .page
+    &__title
+      height: 400px
