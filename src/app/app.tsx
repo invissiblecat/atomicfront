@@ -35,14 +35,6 @@ function App() {
         setChainId(0);
       }
     );
-    // if (web3Modal.cachedProvider) {
-    //   (async () => {
-    //     await connect(web3Modal.cachedProvider as Connector);
-    //     setInited(true);
-    //   })();
-    // } else {
-    //   setInited(true);
-    // }
   }, []);
   return (
     <div className="app">

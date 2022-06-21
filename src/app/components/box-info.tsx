@@ -24,7 +24,6 @@ type TProps = {
 };
 
 const BoxInfo: FC<TProps> = ({data}) => {
-  // const {data: blockchainData} = useGetBoxQuery({boxId: data.id, contractNetwork: data.sendNetwork}, {pollingInterval: 30000});
   const [boxStatus, setBoxStatus] = useState('');
   const wallet = useSelector(selectWallet);
   const [claim, {}] = useClaimMutation();

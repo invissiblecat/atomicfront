@@ -1,5 +1,4 @@
-import { BigNumber, ethers } from "ethers";
-import { setupNetwork, switchNetwork } from "lib/utilities";
+import { ethers } from "ethers";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -7,20 +6,10 @@ import { useGetBoxByIdQuery, usePatchBoxMutation } from "redux/project.api";
 import { useCreateBoxMutation } from "redux/registry.api";
 import {
   useApproveMutation,
-  useGetAllowanceQuery,
 } from "redux/token-contract.api";
 import { selectWallet } from "redux/wallet.slice";
-import { TCreateBox } from "services/registry.contract";
-import DatePicker from "react-datepicker";
-// import {
-//   DateRangeInput,
-//   DateSingleInput,
-//   Datepicker,
-//   OnDatesChangeProps,
-// } from "@datepicker-react/styled";
 import "./first-box.sass";
 import Table from "./table";
-import { time } from "console";
 
 type TProps = {
   boxId: string;

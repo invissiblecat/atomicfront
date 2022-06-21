@@ -27,12 +27,6 @@ class WalletService {
     this.signer = this.provider.getSigner();
     this.network = await this.provider.getNetwork();
     this.setupHandlers();
-    // const setupResult = await setupNetwork();
-    
-    // if (!setupResult) {
-      //   this.handleDisconnect({});
-      // }
-      
       if (tokenService.tokens) {
         const timestamp = Date.now();
         

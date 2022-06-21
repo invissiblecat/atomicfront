@@ -42,9 +42,6 @@ const MainTable = () => {
 
   }
 
-
-  
-//todo click on full row 
   return (
     <div className="main-table"> 
       <div className="main-table__row">

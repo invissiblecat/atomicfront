@@ -56,8 +56,7 @@ class RegistryContract {
     props: TCreateBox;
     contractNetwork: string;
   }): Promise<ContractTransaction> {
-    // await setupNetwork(contractNetwork);
-    // await switchNetwork(contractNetwork);
+    await switchNetwork(contractNetwork);
     const address = this.getRegistryAddress(contractNetwork)
     let hashSecret
     if (!props.isHash) {
@@ -78,7 +77,6 @@ class RegistryContract {
     props: TClaim;
     claimNetwork: string;
   }): Promise<ContractTransaction> {
-    // await setupNetwork(claimNetwork);
     await switchNetwork(claimNetwork);
     const address = this.getRegistryAddress(claimNetwork)
     const contract = this._getContract(address, claimNetwork);

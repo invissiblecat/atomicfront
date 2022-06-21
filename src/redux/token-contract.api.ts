@@ -12,20 +12,6 @@ export const tokenContractApi = createApi({
     baseUrl: "/",
   }),
   endpoints: (builder) => ({
-    // getBalance: builder.query<BigNumber, { account: string; address: string }>({
-    //   async queryFn({ account, address }) {
-    //     try {
-    //       const data = await ERC20Contract.balanceOf({
-    //         address,
-    //         account,
-    //       });
-    //       return { data };
-    //     } catch (error) {
-    //       console.error("getBalance error:", error);
-    //       return { error: error as FetchBaseQueryError };
-    //     }
-    //   },
-    // }),
 
     getAllowance: builder.query<
       BigNumber,

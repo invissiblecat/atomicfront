@@ -22,11 +22,6 @@ const BoxSended: FC<TProps> = ({id, statusToUpdate, redirect}) => {
   const wallet = useSelector(selectWallet);
   const { connect, disconnect } = useActions();
   const {data, refetch} = useGetBoxByIdQuery(id, {pollingInterval: 10000});
-  // const {data: sendBlockchainData} = useGetBoxQuery({boxId: data?.sendBlockchainId!, contractNetwork: data?.sendNetwork!}, {pollingInterval: 30000});
-  // const {data: recieveBlockchainData} = useGetBoxQuery({boxId: data?.recieveBlockchainId!, contractNetwork: data?.recieveNetwork!}, {pollingInterval: 30000});
-
-
-  // console.log({reciev÷÷eBlockchainData})
   const [yourBox, setYourBox] = useState({  type: "Your",
           id: data?.sendBlockchainId!,
           sendNetwork: data?.sendNetwork!,
