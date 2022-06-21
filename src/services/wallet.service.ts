@@ -28,23 +28,22 @@ class WalletService {
     this.network = await this.provider.getNetwork();
     this.setupHandlers();
     // const setupResult = await setupNetwork();
-
+    
     // if (!setupResult) {
-    //   this.handleDisconnect({});
-    // }
-
-    if (tokenService.tokens) {
-      const timestamp = Date.now();
-
-      if (tokenService.tokens.accessExpiresIn - timestamp >= ONE_HOUR) {
-        return {
-          provider: this.provider,
-          web3ModalProvider: this.web3ModalProvider,
-          signer: this.signer,
-          network: this.network,
-        };
-      }
-
+      //   this.handleDisconnect({});
+      // }
+      
+      if (tokenService.tokens) {
+        const timestamp = Date.now();
+        
+        if (tokenService.tokens.accessExpiresIn - timestamp >= ONE_HOUR) {
+          return {
+            provider: this.provider,
+            web3ModalProvider: this.web3ModalProvider,
+            signer: this.signer,
+            network: this.network,
+          };
+        }
       try {
         await tokenService.updateToken();
         return {
@@ -69,6 +68,7 @@ class WalletService {
     ) {
       await this.web3ModalProvider.disconnect();
     }
+    tokenService.removeToken();
   }
 
   async signLoginMessage(signer: JsonRpcSigner) {
@@ -111,7 +111,6 @@ class WalletService {
     const handleChainChanged = async (chainId: string) => {
       const formattedChainId = BigNumber.from(chainId).toNumber();
       await this.handleChainChanged(formattedChainId);
-      // window.location.reload();
       this.connect()
     };
 

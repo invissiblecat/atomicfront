@@ -12,12 +12,12 @@ function App() {
   const [inited, setInited] = useState(false);
   const wallet = useSelector(selectWallet);
 
-  const { setAddress, setChainId, connect } = useActions();
+  const { setAddress, setChainId, connect, disconnect } = useActions();
 
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", () => {
-        window.location.reload();
+        disconnect();
       });
     }
   });
