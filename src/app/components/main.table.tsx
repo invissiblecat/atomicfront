@@ -55,21 +55,24 @@ const MainTable = () => {
 
   if (data) {
     for (let i = 0; i < data.length; i++) {
-      rows.push(   
-        <div className="main-table__row" onClick={async () => {await onClick(data[i].id)}}>
-        <div className="main-table__value" >
-          {data[i].id}
+      rows.push(
+        <div className="main-table__row">
+          <div
+            className="main-table__value"
+            onClick={() => onClick(data[i].id)}
+          >
+            {data[i].id}
+          </div>
+          <div className="main-table__value">
+            {ethers.utils.formatUnits(data[i].recieveAmount)}{" "}
+            {getTokenSymbol(data[i].recieveToken)}
+          </div>
+          <div className="main-table__value">
+            {ethers.utils.formatUnits(data[i].sendAmount)}{" "}
+            {getTokenSymbol(data[i].sendToken)}
+          </div>
         </div>
-        <div className="main-table__value">
-          {ethers.utils.formatUnits(data[i].recieveAmount)}{" "}
-          {getTokenSymbol(data[i].recieveToken)}
-        </div>
-        <div className="main-table__value">
-          {ethers.utils.formatUnits(data[i].sendAmount)}{" "}
-          {getTokenSymbol(data[i].sendToken)}
-        </div>
-        </div>
-    )
+      );
     }
   }
 
@@ -80,7 +83,7 @@ const MainTable = () => {
         <div className="main-table__name">Send</div>
         <div className="main-table__name">Buy</div>
       </div>
-        {rows}
+      {rows}
     </div>
   );
 };
