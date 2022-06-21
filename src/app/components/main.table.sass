@@ -2,17 +2,26 @@
     background-color: rgba(197, 208, 230, 0.5)
     width: calc( 100% - 400px )
     margin-left: 200px
-    display: flex
-    justify-content: space-between
+    display: table
     font-size: 24px
     border-radius: 15px
     padding: 15px 15px
+    &__row
+        display: flex
+        justify-content: space-between
+        &:not(&:first-child)
+            &:hover
+                background-color: rgba(130, 138, 153, 0.5)
     &__name
         margin-bottom: 10px
         font-weight: 600
-        text-align: start
         opacity: 0.5
+        display: table-cell
+        text-align: center
     &__value
+        padding-top: 2px
+        padding-bottom: 2px
+        display: table-cell
 
 @media (max-width: 800px)
     .main-table
