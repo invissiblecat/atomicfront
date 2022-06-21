@@ -64,11 +64,11 @@ const Table: FC<TProps> = ({ size, title, type, box, statusToUpdate }) => {
           </div>
           <div className="table__item">
             <div className="table__name">Founder</div>
-            <div className="table__value">{sliceAddress(box.sender)}</div>
+            {box.sender && <div className="table__value">{sliceAddress(box.sender)}</div>}
           </div>
           <div className="table__item">
             <div className="table__name">Recipient (you)</div>
-            <div className="table__value">{sliceAddress(box.reciever!)}</div>
+            {box.reciever && <div className="table__value">{sliceAddress(box.reciever)}</div>}
           </div>
           <div className="table__item">
             <div className="table__name">Network</div>
