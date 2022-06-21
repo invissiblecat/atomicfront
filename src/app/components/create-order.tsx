@@ -11,7 +11,7 @@ type TProps = {
 };
 
 const CreateOrder: FC<TProps> = ({ timerTitle, id }) => {
-  const { data } = useGetBoxByIdQuery(id, { pollingInterval: 10000 });
+  const { data } = useGetBoxByIdQuery(id, { pollingInterval: 2000 });
   const history = useHistory();
 
   useEffect(() => {
