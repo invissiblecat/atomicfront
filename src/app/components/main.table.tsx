@@ -18,29 +18,32 @@ const MainTable = () => {
   const rows = [];
   const {data: box, refetch: refetchBoxById} = useGetBoxByIdQuery(globalBoxId, {skip: !globalBoxId});
   const onClick = async (boxId: string) => {
-    try {
-      setGlobalBoxId(boxId);
-      console.log(globalBoxId)
-      console.log(box)
-      if (wallet.address === box?.sender) {
-        history.push(`/orderCreated/${boxId}`);
-      } else {
-        const res = await setReciever({
-          id: boxId,
-          body: { reciever: wallet.address },
-        });
-        if (Object.hasOwn(res, "data")) {
-          history.push(`/orderSelected/${boxId}`);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    setGlobalBoxId(boxId);
+
   };
 
   useEffect(() => {
     refetchBoxById()
   }, [globalBoxId])
+
+  useEffect(() => {
+   patchBox();
+  }, [box])
+
+  const patchBox = async () => {
+    if (!box) return
+    if (wallet.address === box?.sender) {
+      history.push(`/orderCreated/${box?.id}`);
+    } else {
+      const res = await setReciever({
+        id: box?.id,
+        body: { reciever: wallet.address },
+      });
+      if (Object.hasOwn(res, "data")) {
+        history.push(`/orderSelected/${box?.id}`);
+      }
+    }
+  }
 
   const getTokenSymbol = (tokenAddress: string) => {
     switch (tokenAddress) {
@@ -56,7 +59,7 @@ const MainTable = () => {
   if (data) {
     for (let i = 0; i < data.length; i++) {
       rows.push(
-        <div className="main-table__row">
+        <div className="main-table__row" key={'row' + i}>
           <div
             className="main-table__value"
             onClick={() => onClick(data[i].id)}
