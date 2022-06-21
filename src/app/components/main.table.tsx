@@ -86,9 +86,9 @@ const MainTable = () => {
         <div className="main-table__name">Buy</div>
       </div>
       <div className="main-table__row">
-        <div className="main-table__value">Order id</div>
-        <div className="main-table__value">Send</div>
-        <div className="main-table__value">Buy</div>
+        <div className="main-table__value">3</div>
+        <div className="main-table__value">1.0 tETH</div>
+        <div className="main-table__value">1.0 tETH</div>
       </div>
     </div>
   );
