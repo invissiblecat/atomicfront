@@ -27,7 +27,6 @@ function App() {
         setAddress(accounts[0]);
       },
       async (chainId) => {
-        console.log({chainId})
         setChainId(chainId);
       },
       async () => {
